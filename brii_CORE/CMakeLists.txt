@@ -8,6 +8,10 @@ set(APLICATION_ENGINE
 
 set(SETTINGS_ENGINE
  Settings/Settings_BriiEngine.h
+ Settings/Settings_FileSystem.h
+ Settings/Settings_LogEngine.h
+ Settings/Settings_UiEngine.h
+ Settings/Settings_WindowEngine.h
 )
 
 set(DATA_MANAGER
@@ -44,6 +48,16 @@ model_binFormat.h
 texturesPack_binFormat.h
 )
 
+set(STRING_ID_CORE 
+String/stringID_brii.h
+String/stringID_brii.cpp
+String/BriiType_string.h
+String/BriiType_string.cpp
+)
+
+set(LOCALIZATION_CORE
+Localization/LocalizationString_brii.h
+)
 
 #add_executable(briiCore
 #${APLICATION_ENGINE}

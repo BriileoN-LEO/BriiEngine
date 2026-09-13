@@ -224,7 +224,7 @@ inline uint32_t pack_binMesh_posix_overwrite(const mesh_LeoHeader& headerMesh, s
 
   if(binMesh < 0)
   {
-   log_System::fileLogger.error("erro open file | file = " + temp_creationFileDir);
+   log_System::fileLogger.error("error open file | file = " + temp_creationFileDir);
    return 0;
   }
 

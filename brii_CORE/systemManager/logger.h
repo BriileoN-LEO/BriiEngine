@@ -1,34 +1,14 @@
 #ifndef LOGGER_H
 #define LOGGER_H 
 
+#include "Settings/Settings_BriiEngine.h"
+
 #include <iostream>
 #include <string>
 #include <string_view>
 #include <source_location>
 
-enum class BE_log_T : uint32_t
-{
- PLATFORM = 0
-};
 
-struct BE_logContext
-{
- BE_log_T log_T{};
- std::string name_log_T{};
-};
-
-class BE_log
-{
- private:
- ///HERE SAVE A VECTOR OF BE_logContext 
- ///Think more about how to implement this logger in a better way
- ///Change the logs from files:
- //-Platform/Private/Platform_SDL/SDL3_window.cpp 
- 
-
- public:
-
-};
 
 
 class logger
@@ -48,6 +28,7 @@ class logger
   void warning(std::string_view warning_message, const std::source_location location = std::source_location::current());
   void info(std::string_view info_message);
 };
+
 
 namespace log_System
 {

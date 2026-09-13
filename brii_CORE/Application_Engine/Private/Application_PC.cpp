@@ -8,6 +8,9 @@
 namespace Application
 {
 
+ BriiEngine::BriiEngine(){};
+ BriiEngine::~BriiEngine(){ destroy_EngineBrii(); }; 
+
 void BriiEngine::init_Window()
 {
   Brii_RHI* RHI_ptr { RHI_Manager->get_RHI_RawPtr() };

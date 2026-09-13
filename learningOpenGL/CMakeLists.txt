@@ -6,7 +6,27 @@ cmake_minimum_required (VERSION 3.21)
 # Add source to this project's executable.
 #add_executable (learningOpenGL "learningOpenGL.cpp" "learningOpenGL.h")
 
-add_executable(Learning "learningOpenGL.cpp" "learningOpenGL.h"
+
+set(BRII_SYSTEM)
+
+if(TARGET_PLATFORM STREQUAL "PC")
+
+set(BRII_SYSTEM_PC
+main_EngineBrii/main_SDL.cpp
+main_EngineBrii/main_brii.h
+)
+
+elseif(TARGET_PLATFORM STREQUAL "PC_LEGACY")
+set(OLD_BRII_SYSTEM
+learningOpenGL.cpp
+learningOpenGL.h
+)
+
+endif()
+
+
+add_executable(Learning 
+${BRII_SYSTEM}
 "libFile.h"
 "config_window.h" "config_window.cpp" "data_save.h" "data_save.cpp"
 "control.cpp" "control.h"

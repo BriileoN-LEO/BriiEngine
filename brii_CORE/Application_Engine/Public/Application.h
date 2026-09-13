@@ -3,6 +3,8 @@
 #include "Public/Platform_Brii/Platform_Window.h"
 #include "Public/Platform_Brii/Platform_FileSystem.h"
 #include "Public/RHI_Settings/RHI_Factory.h"
+#include "Public/Platform_Brii/Log_System/Platform_Log.h"
+#include "systemManager/logger.h"
 //#include "Settings/Settings_BriiEngine.h"
 //#include "Settings/Settings_WindowEngine.h" 
 #include <iostream> 
@@ -13,10 +15,12 @@ namespace Application
   class BriiEngine
  {
   private:
- 
   
   BT_UniquePtr<Brii_WindowManager> window_Manager{}; 
   BT_UniquePtr<Brii_RHI_Manager> RHI_Manager{};
+  BT_UniquePtr<Brii_logManager> Log_Manager{}; ///THIS LOG CONTAINS ALL THE LOG TYPES FOR THE ENGIN
+  BT_UniquePtr<Brii_FileSystem_Manager> FS_Manager{}; 
+ 
 
   //Main settings for the principal Window of the Engine 
 	 Brii_EngineSettings Engine_Settings{};
@@ -34,6 +38,7 @@ namespace Application
 
  };
 
+/*
 ////QUIT THIS IN THE FUTURE 
 ///EXAMPLE IF I WILL HAVE MULTIPLE WINDOWS, HOW I WILL BE CREATE
  class Brii_UI_Engine
@@ -48,6 +53,6 @@ namespace Application
 
 
 };
-
+*/
 
 }

@@ -7,6 +7,9 @@ set(PLATFORM_BRII
 Public/Platform_Brii/Platform_Window.h
 Public/Platform_Brii/Platform_Input.h
 Public/Platform_Brii/Platform_FileSystem.h
+Public/Platform_Brii/Log_System/Platform_Log.h
+Public/Platform_Brii/Log_System/Platform_logCalls.h
+Public/Platform_Brii/Platform_IOS.h
 )
 
 add_library(Brii_Platform STATIC  
@@ -25,6 +28,7 @@ Private/Platform_SDL/Public/SDL3_window.cpp
 Private/Platform_SDL/Public/SDL3_Input.cpp
 )
 
+
 target_sources(Brii_Platform PRIVATE ${PLATFORM_PC})
 target_link_libraries(Brii_Platform PRIVATE SDL3::SDL3-shared)
 target_include_directories(Brii_Platform PRIVATE ${PLATFORM_PC})
@@ -35,6 +39,8 @@ if(UNIX AND NOT APPLE)
 set(PLATFORM_LINUX
 Private/Platform_SDL/Private/Linux/SDL3_WindowDef_Linux.cpp
 Private/FileSystem_OS/Linux/FileSystem_POSIX.cpp
+Private/Platform_Log/Linux/linux_LogCalls.cpp
+Private/Platform_Iostream/linux_IOS.cpp
 )
 
 target_sources(Brii_Platform PRIVATE ${PLATFORM_LINUX})
@@ -57,6 +63,12 @@ SOURCE_STRINGS_ENGINE_BRII="${SOURCE_LOCALIZATION_STRING}"
 target_compile_definitions(Brii_Platform PUBLIC
 SOURCE_STRINGS_USER_ENGINE_BRII="${SOURCE_LOCALIZATION_STRING_USER}"
 )
+
+#LOGS FILE ORIGIN
+target_compile_definitions(Brii_Platform PRIVATE 
+SOURCE_LOG_ERROR_REGISTER="${SOURCE_LOGS}/error_logs.txt"
+)
+
 
 target_include_directories(Brii_Platform PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(Brii_Platform PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Platform")

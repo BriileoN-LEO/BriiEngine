@@ -5,7 +5,7 @@
 
 ///SELECTION OF THE GRAPHICS API
 
- enum class Brii_Renderer_API : uint8_t
+ enum class Brii_Renderer_API : BT_FlagsU8
  {
   OpenGL = 0,
   Vulkan,

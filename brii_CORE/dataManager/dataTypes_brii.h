@@ -4,6 +4,9 @@
 
 #ifndef LIBS_DATATYPES_BRII_H
 #define LIBS_DATATYPES_BRII_H
+
+#include "String/BriiType_string.h"
+
 #include <iostream>
 #include <type_traits>
 #include <concepts>
@@ -12,6 +15,17 @@
 #include <unordered_map>
 
 //DATA ALIAS BriiEngine -----------------------------------
+
+//BOOL UINT, saved for booleans in structs 
+using BT_BoolStruct = uint32_t;
+
+//COMPONENT FLAGS
+using BT_FlagsU8 = uint8_t;
+using BT_FlagsU16 = uint16_t; //CHANGE THE NAME OF THIS COMPONENT FLAGS
+using BT_FlagsU32 = uint32_t;
+using BT_FlagsU64 = uint64_t;
+using BT_FlagsInt = int;
+
 
 ///POINTERS
 
@@ -36,25 +50,28 @@ using BT_Vector = std::vector<T>;
 template<typename IDX, typename T>
 using BT_UnorderedMap = std::unordered_map<IDX, T>;
 
-template<typename IDX, typename T>
-using BT_HashTable = std::unordered_map<IDX, T>;
-
+template<typename IDX, typename T, typename HASH = std::hash<IDX>>
+using BT_HashTable = std::unordered_map<IDX, T, HASH>;
 
 ////string characters
-using BT_String = std::string;
-using BT_StringView = std::string_view;
+using BT_String = Brii_TypeString;
+using BT_StringView = Brii_TypeStringView;
 using BT_StringContID = std::wstring; ///wstring is used to save a wide range of strings characters, defined if in the future is change 
 
 ///for string localitation types
 using BT_StringID_64 = uint64_t;
 using BT_StringID_32 = uint32_t;
 
+///for FileSystem
+using BT_FileSystemID = int;
+using BT_ios_openFlags = BT_FlagsU16;
+using BT_ios_openPermFlags = BT_FlagsU64; 
+//using BT_FileSystem_Flags = BT_ComponentFlags64;
+
 //SPECIFIC TYPES WINDOW
 using BT_WindowID = uint32_t;
+using BT_Window_Flags = BT_FlagsU64;
 
-//COMPONENT FLAGS
-using BT_ComponentFlags32 = uint32_t;
-using BT_ComponentFlags64 = uint64_t;
 
 //----------------------------------------------------------
 
@@ -90,7 +107,7 @@ using BT_ComponentFlags64 = uint64_t;
  }
 
  template<typename T, typename = std::enable_if_t<is_bitmask_flag<T>>>
- constexpr T operator ^=(T f1, T f2)
+ constexpr T operator ^=(T f1, T f2)                                    //Operator (^) works like to quit(if the f1 have the flag) or add(if f1 not have the flag) a flag
 {
  using underlying_T = std::underlying_type_t<T>; 
  return static_cast<T>(static_cast<underlying_T>(f1) ^ static_cast<underlying_T>(f2));
@@ -152,7 +169,6 @@ namespace funcPtr
   //USED TO DETERMINADE IF THE TEMPLATE OF FUNCTION OR CLASS IS DETERMINATED VALUE TYPE, IN THIS CASE NEEDS TO BE A FUNCTION POINTER
   template <typename T>
   concept ptr_func_only = is_func_ptr<T>;  
-
 
   using funcDouble_uint64_t = void(*)(uint64_t&, uint64_t&);
   using func_Double_str_constUint = void(*)(std::string&, const std::string&, const unsigned int&);

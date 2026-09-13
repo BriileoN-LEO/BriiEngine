@@ -2,7 +2,7 @@
 
 #include "dataManager/dataTypes_brii.h"
 
-enum class Brii_WindowType : uint16_t
+enum class Brii_WindowType : BT_FlagsU16
  {
   PRINCIPAL_WINDOW = 0,
   VIEWPORT = 1,
@@ -11,7 +11,7 @@ enum class Brii_WindowType : uint16_t
  };
 
 
-enum class Brii_WindowFlags : BT_ComponentFlags64
+enum class Brii_WindowFlags : BT_Window_Flags
 {
  //API
  BRII_WINDOW_OPENGL = 1,
