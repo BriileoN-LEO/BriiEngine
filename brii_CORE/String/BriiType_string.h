@@ -21,18 +21,23 @@ class Brii_TypeString
  public:
 
  Brii_TypeString();
- Brii_TypeString(const char* TChar);
+ //Brii_TypeString(const char* TChar);
  Brii_TypeString(Brii_TypeString&& Tstring_c) noexcept;
  Brii_TypeString(const Brii_TypeString& Tstring_c);
  Brii_TypeString(const BT_string_internal& Tstring_in);
+
+ explicit Brii_TypeString(const char* TChar)
+ {
+  Tstring = TChar;
+ }
 
  Brii_TypeString operator=(const Brii_TypeString Tstring_c);
 
  Brii_TypeString operator+=(Brii_TypeString&& Tstring_c);
  Brii_TypeString operator+=(const BT_string_internal&& Tstring_c);
- Brii_TypeString operator+=(const char* Tstring_c);
-
-
+ Brii_TypeString operator+=(const char* Tstring_c); 
+ 
+ 
  Brii_TypeString combine_operator_out(Brii_TypeString& Tstring_c);///IT RETURNS a COPY of the Tstring combined with Tstring_c
  void combine_operator_in(Brii_TypeString& Tstring_c);//IT combines the internal BT_string_internl Tstring
 
@@ -69,6 +74,8 @@ class Brii_TypeStringView
  ~Brii_TypeStringView();
 
  BT_StringView_internal& get();
+ const char* data();
+
 
 };
 

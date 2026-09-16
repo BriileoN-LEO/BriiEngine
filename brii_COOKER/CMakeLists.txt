@@ -2,11 +2,19 @@ cmake_minimum_required (VERSION 3.21)
 
 project(brii_COOKER)
 
-add_executable(brii_COOKER "main_Cooker.cpp"
-        "manager_briiCooker.cpp"
-        "manager_briiCooker.h"
-        "dataCooker.cpp"
-        "dataCooker.h"
+set(DIR_AND_FILES_COOKER
+DirAndFiles/Public/DirAndFiles_cook.h
+DirAndFiles/Private/DirAndFiles_cook.cpp
+
+)
+
+add_executable(brii_COOKER 
+${DIR_AND_FILES_COOKER}
+"main_Cooker.cpp"
+"manager_briiCooker.cpp"
+"manager_briiCooker.h"
+"dataCooker.cpp"
+"dataCooker.h"
 )
 
 target_include_directories(brii_COOKER PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -19,6 +27,7 @@ SOURCE_DIR_ENGINE_B="${SOURCE_DIR_ENGINE}"
 target_link_libraries(brii_COOKER PRIVATE
 Learning_lib
 brii_CORE
+Brii_Platform
 assimp::assimp
 glm::glm
 ktx

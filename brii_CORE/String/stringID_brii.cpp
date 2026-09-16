@@ -3,6 +3,10 @@
 
  Brii_StringID::Brii_StringID(){};
  Brii_StringID::~Brii_StringID() = default;
+ Brii_StringID::Brii_StringID(BT_String str)
+ {
+  createID_by_str(str);
+ }
  Brii_StringID::Brii_StringID(BT_StringID_64 stringID)
  {
   this->stringID = stringID;
@@ -40,6 +44,10 @@
   return this->stringID == stringID;
  }
 
+ void Brii_StringID::createID_by_str(BT_String str)
+ {
+  this->stringID = Brii_StringFNV::hash_1a(str);  
+ }
 
  BT_StringID_64& Brii_StringID::get()
  {

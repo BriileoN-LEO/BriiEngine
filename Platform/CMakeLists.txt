@@ -10,6 +10,7 @@ Public/Platform_Brii/Platform_FileSystem.h
 Public/Platform_Brii/Log_System/Platform_Log.h
 Public/Platform_Brii/Log_System/Platform_logCalls.h
 Public/Platform_Brii/Platform_IOS.h
+Public/Platform_Brii/Platform_Types.h
 )
 
 add_library(Brii_Platform STATIC  
@@ -62,6 +63,10 @@ SOURCE_STRINGS_ENGINE_BRII="${SOURCE_LOCALIZATION_STRING}"
 
 target_compile_definitions(Brii_Platform PUBLIC
 SOURCE_STRINGS_USER_ENGINE_BRII="${SOURCE_LOCALIZATION_STRING_USER}"
+)
+
+target_compile_definitions(Brii_Platform PUBLIC
+SOURCE_LOGS_ENGINE_BRII="${SOURCE_LOGS}"
 )
 
 #LOGS FILE ORIGIN

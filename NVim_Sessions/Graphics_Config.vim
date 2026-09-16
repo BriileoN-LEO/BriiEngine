@@ -23,7 +23,7 @@ badd +1 brii_CORE/Settings/Settings_UiEngine.h
 badd +37 brii_CORE/Settings/Settings_BriiEngine.h
 badd +21 brii_CORE/Application_Engine/Public/Application.h
 badd +39 Platform/Public/Platform_Brii/Platform_Window.h
-badd +21 brii_CORE/dataManager/dataTypes_brii.h
+badd +57 brii_CORE/dataManager/dataTypes_brii.h
 badd +37 brii_CORE/dataManager/convertion_DataManager.h
 badd +19 brii_CORE/dataManager/algorithms_brii.h
 badd +1 brii_CORE/dataManager/convertion_DataManager.cpp
@@ -42,7 +42,7 @@ badd +70 brii_CORE/String/stringID_brii.cpp
 badd +32 learningOpenGL/learningOpenGL.h
 badd +32 learningOpenGL/CMakeLists.txt
 badd +7 Platform/Private/FileSystem_OS/FileSystem_POSIX.cpp
-badd +35 Platform/Public/Platform_Brii/Platform_FileSystem.h
+badd +33 Platform/Public/Platform_Brii/Platform_FileSystem.h
 badd +3 brii_CORE/material_binFormat.h
 badd +13 brii_CORE/systemManager/platform_Manager.h
 badd +1 Platform/Public/Platform_Brii/Platform_Input.h
@@ -52,7 +52,7 @@ badd +42 brii_CORE/Settings/Settings_FileSystem.h
 badd +1 brii_CORE/texturesPack_binFormat.h
 badd +1 assets_engine/Localization/English_Lenguage/Window_EngineBrii/Principal_Window.csv
 badd +62 CMakeLists.txt
-badd +55 brii_CORE/CMakeLists.txt
+badd +29 brii_CORE/CMakeLists.txt
 badd +1 brii_CORE/main_core.h
 badd +1 brii_COOKER/main_Cooker.cpp
 badd +1 brii_COOKER/dataCooker.h
@@ -66,12 +66,12 @@ badd +1 brii_CORE/dataManager/containerTypes_manager.cpp
 badd +149 /usr/include/bits/types.h
 badd +37 /usr/include/bits/typesizes.h
 badd +160 /usr/include/sys/stat.h
-badd +22 brii_CORE/Localization/LocalizationString_brii.h
+badd +20 brii_CORE/Localization/LocalizationString_brii.h
 badd +36 Graphics/Public/Graphics_Interface/IGraphics_brii.h
 badd +32 brii_CORE/systemManager/logger.h
 badd +22 brii_CORE/systemManager/logger.cpp
 badd +42 Platform/Public/Platform_Brii/Platform_Log.h
-badd +39 brii_CORE/Settings/Settings_LogEngine.h
+badd +49 brii_CORE/Settings/Settings_LogEngine.h
 badd +1 brii_CORE/dataManager/algorithms_brii.cpp
 badd +1 Platform/Private/Platform_SDL/Public/SDL3_Input.cpp
 badd +8 Graphics/Public/Graphics_Interface/IGraphics_brii.cpp
@@ -80,12 +80,12 @@ badd +1 Graphics/Public/RHI_Settings/RHI_Factory.h
 badd +18 Graphics/Private/IG_OpenGL/IGraphics_OpenGL.cpp
 badd +118 learningOpenGL/learningOpenGL.cpp
 badd +1 learningOpenGL/main_EngineBrii/Private/main_SDL.cpp
-badd +21 Platform/Public/Platform_Brii/Log_System/Platform_logCalls.h
-badd +46 Platform/Public/Platform_Brii/Log_System/Platform_Log.h
+badd +25 Platform/Public/Platform_Brii/Log_System/Platform_logCalls.h
+badd +60 Platform/Public/Platform_Brii/Log_System/Platform_Log.h
 badd +11 Platform/Private/Platform_Log/generic_LogCalls.cpp
 badd +265 term://~/CPP_proyects/Engine_Test//17298:/usr/bin/bash
 badd +254 term://~/CPP_proyects/Engine_Test//24704:/usr/bin/bash
-badd +83 Platform/Private/Platform_Log/Linux/linux_LogCalls.cpp
+badd +73 Platform/Private/Platform_Log/Linux/linux_LogCalls.cpp
 badd +8 Platform/Public/Platform_Brii/Platform_IOS.h
 badd +10 Platform/Private/Platform_Iostream/linux_IOS.cpp
 badd +27 brii_CORE/String/BriiType_string.h
@@ -93,14 +93,21 @@ badd +30 brii_CORE/String/BriiType_string.cpp
 badd +862 /usr/include/c++/16/string_view
 badd +79 /usr/include/c++/16/bits/stringfwd.h
 badd +365 /usr/include/c++/16/bits/basic_string.h
-badd +10 Platform/Private/Platform_Log/Linux/linux_Log.cpp
-badd +8 brii_CORE/Settings/Settings_locString.h
+badd +54 Platform/Private/Platform_Log/Linux/linux_Log.cpp
+badd +25 brii_CORE/Settings/Settings_locString.h
+badd +17 brii_CORE/Localization/LocalizationString_brii.cpp
+badd +12 brii_CORE/Directories_and_Files/Private/DirAndFile_Manager.cpp
+badd +20 brii_CORE/Directories_and_Files/Public/FilesAssets_brii.h
+badd +7 brii_CORE/Directories_and_Files/Public/DirAssets_brii.h
+badd +10 brii_CORE/Directories_and_Files/Public/DirAndFile_Manager.h
+badd +15 brii_CORE/dataManager/Public/portability_variables.h
+badd +4 brii_CORE/dataManager/Private/portability_variables.cpp
 argglobal
 %argdel
 $argadd ~/CPP_proyects/Engine_Test
-edit Platform/Private/Platform_Log/Linux/linux_LogCalls.cpp
+edit brii_CORE/Directories_and_Files/Private/DirAndFile_Manager.cpp
 argglobal
-balt Platform/Public/Platform_Brii/Log_System/Platform_logCalls.h
+balt brii_CORE/Directories_and_Files/Public/DirAndFile_Manager.h
 setlocal foldmethod=manual
 setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
 setlocal foldmarker={{{,}}}
@@ -111,27 +118,15 @@ setlocal foldnestmax=20
 setlocal foldenable
 silent! normal! zE
 sil! 2,4fold
-sil! 11,15fold
-sil! 17,23fold
-sil! 29,32fold
-sil! 33,36fold
-sil! 37,40fold
-sil! 41,44fold
-sil! 27,45fold
-sil! 25,47fold
-sil! 9,48fold
-sil! 55,58fold
-sil! 51,66fold
-sil! 72,75fold
-sil! 89,91fold
-sil! 68,91fold
+sil! 12,21fold
+sil! 9,22fold
 let &fdl = &fdl
-let s:l = 83 - ((37 * winheight(0) + 23) / 47)
+let s:l = 22 - ((21 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 83
-normal! 070|
+keepjumps 22
+normal! 0
 lcd ~/CPP_proyects/Engine_Test
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'

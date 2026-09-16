@@ -12,15 +12,19 @@ namespace Brii_logCallsM
 {
 void link_LogManager(void* logManager);
 inline constexpr BT_String string_LocationDescriptor(std::source_location& location);
-inline constexpr BT_String str_categoryLog();
+inline constexpr BT_String str_categoryLog(BF_log::category& logCategory);
+inline constexpr BF_log::file_w getFile_log(BF_log::category& logCategory, BF_log::log_type logType);
+
+///this log descriptor save and show the log for each function, 
+inline constexpr void logDescriptor(BF_log::category& logCategory, BF_log::log_type logType, BT_String message, bool writeLog, bool logOrigin = false,  std::source_location location = std::source_location::current());
 }
 //BRII_LOG is a normal type of logs, NOT WRITE IN ANY FILE
 void BRII_LOG(BT_String message, bool logOrigin = false, std::source_location location = std::source_location::current());
 
 //BRII_LOG_INFO could write in a file of logs 
-void BRII_LOG_INFO(BF_log::category logCategory, BT_String message, bool logOrigin = false, std::source_location location = std::source_location::current()); 
+void BRII_LOG_INFO(BF_log::category logCategory, BT_String message, bool writeLog = false, bool logOrigin = false,  std::source_location location = std::source_location::current()); 
 
-void BRII_LOG_ERROR(BF_log::category logCategory, BT_String message, bool logOrigin = false, std::source_location location = std::source_location::current());
+void BRII_LOG_ERROR(BF_log::category logCategory, BT_String message, bool writeLog = false, bool logOrigin = false, std::source_location location = std::source_location::current());
 
 
 //CONTINUE HERE, SEE HOW TO CONNECT THIS TYPES OF FUNCTIONS WITH THE CALL OF THE *appstate or the application of the mainEngine

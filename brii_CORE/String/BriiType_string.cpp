@@ -1,10 +1,10 @@
 #include "BriiType_string.h"
 
  Brii_TypeString::Brii_TypeString(){};
- Brii_TypeString::Brii_TypeString(const char* TChar)
- { 
-   Tstring = TChar; 
- }
+// Brii_TypeString::Brii_TypeString(const char* TChar)
+ //{ 
+  // Tstring = TChar; 
+ //}
  Brii_TypeString::Brii_TypeString(Brii_TypeString&& Tstring_c) noexcept
  {
   this->Tstring = Tstring_c.Tstring;
@@ -41,7 +41,6 @@
   this->Tstring += BT_string_internal(Tstring_c);
   return *this;
  }
-
  
  Brii_TypeString Brii_TypeString::combine_operator_out(Brii_TypeString& Tstring_c)
  {
@@ -123,4 +122,11 @@
  {
   return T_StringView;
  }
+
+ const char* Brii_TypeStringView::data()
+ {
+  return T_StringView.data(); 
+ }
+
+
 

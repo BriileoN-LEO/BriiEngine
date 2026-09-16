@@ -11,6 +11,7 @@ class Brii_StringID
   public:
   Brii_StringID();
   ~Brii_StringID();
+  Brii_StringID(BT_String str);
   Brii_StringID(BT_StringID_64 stringID);
   Brii_StringID operator=(BT_StringID_64&& stringID) noexcept;
   Brii_StringID operator=(BT_StringID_64& stringID);
@@ -20,6 +21,8 @@ class Brii_StringID
   bool operator==(const Brii_StringID& c_stringID) const;
   bool operator==(BT_StringID_64&& stringID) noexcept;
   bool operator==(const BT_StringID_64& stringID) const;
+
+  void createID_by_str(BT_String str);
 
   BT_StringID_64& get();
 };

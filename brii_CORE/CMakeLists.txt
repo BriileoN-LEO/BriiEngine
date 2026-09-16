@@ -12,6 +12,7 @@ set(SETTINGS_ENGINE
  Settings/Settings_LogEngine.h
  Settings/Settings_UiEngine.h
  Settings/Settings_WindowEngine.h
+ Settings/Settings_locString.h
 )
 
 set(DATA_MANAGER
@@ -23,6 +24,10 @@ dataManager/convertion_DataManager.h
 dataManager/convertion_DataManager.cpp
 dataManager/dataTypes_brii.h
 dataManager/dataTypes_brii.cpp
+
+dataManager/Public/portability_variables.h
+dataManager/Private/portability_variables.cpp
+
 )
 
 set(FILES_CORE_MANAGER
@@ -57,6 +62,11 @@ String/BriiType_string.cpp
 
 set(LOCALIZATION_CORE
 Localization/LocalizationString_brii.h
+)
+
+set(DIRECTORIES_AND_FILES
+ DirAssets_brii.h
+ FilesAssets_brii.h
 )
 
 #add_executable(briiCore
@@ -118,6 +128,9 @@ target_include_directories(brii_CORE PRIVATE
  ${SYSTEM_MANAGER}
  ${THREAD_CORE}
  ${BINARIES_FORMATS}
+ ${STRING_ID_CORE}
+ ${LOCALIZATION_CORE}
+ ${DIRECTORIES_AND_FILES}
  glm_lib.h
  libs_in_CORE.h
  main_core.h

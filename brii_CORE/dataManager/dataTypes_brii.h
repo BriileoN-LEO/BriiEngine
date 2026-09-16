@@ -6,6 +6,7 @@
 #define LIBS_DATATYPES_BRII_H
 
 #include "String/BriiType_string.h"
+#include "Public/portability_variables.h"
 
 #include <iostream>
 #include <type_traits>
@@ -13,6 +14,7 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
+
 
 //DATA ALIAS BriiEngine -----------------------------------
 
@@ -72,6 +74,14 @@ using BT_ios_openPermFlags = BT_FlagsU64;
 using BT_WindowID = uint32_t;
 using BT_Window_Flags = BT_FlagsU64;
 
+
+//SPECIFIC TYPES FOR LOCALIZATION STRING
+using BT_LocStr_Flags = BT_FlagsU64;
+
+
+//PORTABILITY TYPES
+template<typename T>
+using BT_port_voidPtr = Brii_port_voidPtr<T>;
 
 //----------------------------------------------------------
 

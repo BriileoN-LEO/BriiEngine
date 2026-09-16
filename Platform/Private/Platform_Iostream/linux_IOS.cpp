@@ -7,7 +7,7 @@
 
 namespace Brii_ios
 {
-  void MessageConsoleDebug(const char* message)
+  void MessageToConsoleDebug(const char* message)
  {
   write(1, message, strlen(message)); 	
  }

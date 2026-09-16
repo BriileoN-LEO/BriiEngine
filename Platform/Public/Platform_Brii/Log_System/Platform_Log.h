@@ -14,6 +14,12 @@ struct Brii_logContext
  //std::string name_log_T{};
 };*/
 
+namespace Brii_logM
+{
+ void link_locStrLog(void* locStrLog);
+ void link_FS_Manager(void* FS_Manager);
+}
+
 struct Brii_log
 {
  BF_log::category log_category{};
@@ -53,6 +59,10 @@ class Brii_logManager
  
  void insert_logCallStack(BF_log::category log_category, BT_String& message, BT_BoolStruct save_in_file = false, BF_log::file_w file_to_save = BF_log::not_f);
  void register_log(Brii_log& log_toRegister);
+  
+ ////This function will upload the logs of the callstack in the FS
+ ///in every second if there is some logs that it will need to callstack
+ void upload_LogsCallStack_FS();
 
  void clean_callStack();
  void clean_register();

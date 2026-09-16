@@ -3,50 +3,92 @@
 //#include "dataManager/dataTypes_brii.h"
 #include "String/stringID_brii.h"
 
-enum class Brii_log_T : BT_FlagsU32
+using BT_logT = BT_FlagsU32;
+using BT_logCategory = BT_FlagsU64; ////LOGS CATEGORY ALWAYS HAVE THE BIGGEST TYPE OF VALUE
+
+enum class Brii_log_T : BT_logT
 {
- GENERIC = 0,
- ENGINE_DATA = 1, ////THIS LOG IS TO INFORMATION RELATED TO THE ENGINE, specific for the data of the engine
- PLATFORM = 2,
- RHI = 3
+ LOG_INFO = 1,
+ LOG_ERROR = 3
 };
 
-///HERE I WILL SAVE THE LOGS SYSTEM THAT 
-enum class Brii_log_File : BT_FlagsU64
+enum class Brii_log_category :BT_logCategory
 {
- NOT_FILE = 0,
- INFO_ENGINE_DATA_FILE = 1,
- ERROR_ENGINE_DATA_FILE = 2,
- INFO_PLATFORM_FILE = 3,
- ERROR_PLATFORM_FILE = 4 ///platform_error.txt 
+ GENERAL = 0, //[0000]
+ ENGINE_DATA = 1,//[0001]         ////THIS LOG IS TO INFORMATION RELATED TO THE ENGINE, specific for the data of the engine
+ PLATFORM = 2,//[0010]
+ RHI = 3 //[0011]
+};
 
+namespace Brii_logDef_V ////Log definitions values of each enum class 
+{
+static constexpr BT_logCategory info_t = static_cast<BT_logCategory>(Brii_log_T::LOG_INFO);
+static constexpr BT_logCategory error_t = static_cast<BT_logCategory>(Brii_log_T::LOG_ERROR); 
+
+
+static constexpr BT_logCategory general_c = static_cast<BT_logCategory>(Brii_log_category::GENERAL);
+static constexpr BT_logCategory engine_data_c = static_cast<BT_logCategory>(Brii_log_category::ENGINE_DATA);
+static constexpr BT_logCategory platform_c = static_cast<BT_logCategory>(Brii_log_category::PLATFORM);
+static constexpr BT_logCategory rhi_c = static_cast<BT_logCategory>(Brii_log_category::RHI);
+} 
+
+///HERE I WILL SAVE THE LOGS SYSTEM THAT 
+ enum class Brii_log_File : BT_logCategory
+{
+ GENERAL_FILE = Brii_logDef_V::general_c, //[0000]
+
+ INFO_ENGINE_DATA_FILE = Brii_logDef_V::engine_data_c << Brii_logDef_V::info_t, //[0010]
+ INFO_PLATFORM_FILE = Brii_logDef_V::platform_c << Brii_logDef_V::info_t, //[0100]
+ INFO_RHI_FILE = Brii_logDef_V::rhi_c << Brii_logDef_V::info_t, //[0110]
+
+ ERROR_ENGINE_DATA_FILE = Brii_logDef_V::engine_data_c << Brii_logDef_V::error_t, //[1000]
+ ERROR_PLATFORM_FILE = Brii_logDef_V::platform_c << Brii_logDef_V::error_t, //[0001 0000]    ///platform_error.txt 
+ ERROR_RHI_FILE = Brii_logDef_V::rhi_c << Brii_logDef_V::error_t, //[0001 1000]
+ 
+ NOT_FILE = 1 << 12
 };
 
 
  namespace BF_log
 {
-  
- ///HERE GOES A STRING SYSTEM TO LOCALIZE THE STRINGS from category of platform
  
+ using log_type = Brii_log_T;
 
- static BT_StringID localization_logID{};
+ inline constexpr log_type info = Brii_log_T::LOG_INFO;
+ inline constexpr log_type error = Brii_log_T::LOG_ERROR;
 
- using category = Brii_log_T;
+ using category = Brii_log_category;
 
- static constexpr category generic_t = Brii_log_T::GENERIC;
- static constexpr category platform_t = Brii_log_T::PLATFORM;
- static constexpr category engine_data_t = Brii_log_T::ENGINE_DATA; 
- static constexpr category rhi_t = Brii_log_T::RHI;
+ inline constexpr category general_t = Brii_log_category::GENERAL;
+ inline constexpr category platform_t = Brii_log_category::PLATFORM;
+ inline constexpr category engine_data_t = Brii_log_category::ENGINE_DATA; 
+ inline constexpr category rhi_t = Brii_log_category::RHI;
  
  ////////////////////////////////////////////////////////////////
 
  using file_w = Brii_log_File; 
- 
- static constexpr file_w not_f = Brii_log_File::NOT_FILE; 
- static constexpr file_w info_platform_f = Brii_log_File::INFO_PLATFORM_FILE;
- static constexpr file_w error_platform_f = Brii_log_File::ERROR_PLATFORM_FILE; 
 
+ ///USED TO GET THE DIRECTORIES FROM THE DIRECTORIES_LOG_STRING
+
+ inline constexpr file_w not_f = Brii_log_File::NOT_FILE;
+
+ inline constexpr file_w general_f = Brii_log_File::GENERAL_FILE; ///IF WRITE general_f, the type of log is ignore because general_f is [0000] zero
+ 
+ inline constexpr file_w info_engine_data_f = Brii_log_File::INFO_ENGINE_DATA_FILE;
+ inline constexpr file_w info_platform_f = Brii_log_File::INFO_PLATFORM_FILE;
+
+ inline constexpr file_w error_engine_data_f = Brii_log_File::ERROR_ENGINE_DATA_FILE;
+ inline constexpr file_w error_platform_f = Brii_log_File::ERROR_PLATFORM_FILE; 
+
+  inline constexpr file_w getFile_w(category& logCategory, log_type logType)
+ { 
+  return static_cast<file_w>(static_cast<BT_logCategory>(logCategory) << static_cast<BT_logT>(logType));
+ }
+ 
+
+ 
 
 }
+
 
 
