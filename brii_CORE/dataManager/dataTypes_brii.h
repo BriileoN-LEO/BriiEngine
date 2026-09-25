@@ -7,6 +7,7 @@
 
 #include "String/BriiType_string.h"
 #include "Public/portability_variables.h"
+#include "uniquePtr/uniquePtrT_brii.h"
 
 #include <iostream>
 #include <type_traits>
@@ -32,7 +33,7 @@ using BT_FlagsInt = int;
 ///POINTERS
 
 template<typename T>
-using BT_UniquePtr = std::unique_ptr<T>;
+using BT_UniquePtr = BT_uniquePtr_btl<T>;
 
 template<typename T>
 using BT_SharePtr = std::shared_ptr<T>;

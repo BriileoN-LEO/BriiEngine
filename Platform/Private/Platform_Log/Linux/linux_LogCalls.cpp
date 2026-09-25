@@ -14,45 +14,24 @@ namespace Brii_logCallsM
   internal_LogManager = log_manager;
  }
 
+/*
  inline constexpr BT_String string_LocationDescriptor(std::source_location& location)
  {
   BT_String loc { "fileName = "};
   loc += location.file_name();
+  loc += " | line = ";
+  loc += std::to_string(location.line());
 
-  return BT_String(location.file_name() + location.line());
+  return loc;
  }
-
- inline constexpr BT_String str_categoryLog(BF_log::category& logCategory)
- {
-   switch (logCategory)
-   {
-    case BF_log::general_t :
-    {
-     return BT_String("[GENERAL]");
-    }
-    case BF_log::engine_data_t : 
-     {
-      return BT_String("[ENGINE_DATA]");
-     }
-    case BF_log::platform_t : 
-     { 
-      return BT_String("[PLATFORM]");
-     }
-    case BF_log::rhi_t : 
-     {
-      return BT_String("[RHI]");
-     }
-   }
-  
- }
-
- inline constexpr void logDescriptor(BF_log::category& logCategory, BF_log::log_type logType, BT_String message, bool writeLog, bool logOrigin,  std::source_location location)
+*/
+  void logDescriptor(BF_log::category& logCategory, const BF_log::log_type& logType, BT_String message, bool writeLog, bool logOrigin, const BT_SourceLoc& location)
 {
-  BT_String log {"[LOG_INFO]" + Brii_logCallsM::str_categoryLog(logCategory) + message + " "};
+  BT_String log {str_logType(logType) + str_categoryLog(logCategory) + message + " "};
  
  if(logOrigin == true)
  { 
-  log += Brii_logCallsM::string_LocationDescriptor(location);
+  log += location.get_Str_Info();
  }
 
  log += " \n";
@@ -75,13 +54,13 @@ namespace Brii_logCallsM
 }
 
 
-void BRII_LOG(BT_String message, bool logOrigin, std::source_location location)
+ void BRII_LOG(BT_String message, bool logOrigin, const BT_SourceLoc& location)
 { 
  BT_String log{"[LOG]" + message + " "};
 
  if(logOrigin)
  {
-  log += Brii_logCallsM::string_LocationDescriptor(location);
+  log += location.get_Str_Info();
  }
 
  Brii_ios::MessageToConsoleDebug(message.Tchar_ptr());
@@ -91,7 +70,7 @@ void BRII_LOG(BT_String message, bool logOrigin, std::source_location location)
 
 };
 
-void BRII_LOG_INFO(BF_log::category logCategory, BT_String message, bool writeLog, bool logOrigin, std::source_location location)
+void BRII_LOG_INFO(BF_log::category logCategory, BT_String message, bool writeLog, bool logOrigin, const BT_SourceLoc& location)
 {
   Brii_logCallsM::logDescriptor(logCategory, BF_log::info, message, writeLog, logOrigin, location);
  ///THINGS TO DO 13/09/2026
@@ -102,7 +81,7 @@ void BRII_LOG_INFO(BF_log::category logCategory, BT_String message, bool writeLo
 
 };
 
-void BRII_LOG_ERROR(BF_log::category logCategory, BT_String message, bool writeLog, bool logOrigin, std::source_location location)
+void BRII_LOG_ERROR(BF_log::category logCategory, BT_String message, bool writeLog, bool logOrigin, const BT_SourceLoc& location)
 {
  Brii_logCallsM::logDescriptor(logCategory, BF_log::error, message, writeLog, logOrigin, location);
 };

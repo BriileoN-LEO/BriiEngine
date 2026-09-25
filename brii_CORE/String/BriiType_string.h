@@ -1,5 +1,6 @@
 #pragma once 
 
+#include <iostream>
 #include <string>
 
 //This class works like an abstraction of what it the string can do
@@ -26,7 +27,13 @@ class Brii_TypeString
  Brii_TypeString(const Brii_TypeString& Tstring_c);
  Brii_TypeString(const BT_string_internal& Tstring_in);
 
- explicit Brii_TypeString(const char* TChar)
+ Brii_TypeString(uint32_t&& n) noexcept;
+ Brii_TypeString(uint32_t& n);
+ Brii_TypeString(uint32_t n);
+ 
+ ~Brii_TypeString() = default;
+
+ constexpr Brii_TypeString(const char* TChar)
  {
   Tstring = TChar;
  }
@@ -42,7 +49,7 @@ class Brii_TypeString
  void combine_operator_in(Brii_TypeString& Tstring_c);//IT combines the internal BT_string_internl Tstring
 
  const char* operator*(); ///operator to overload the original meaning of pointers, in this case it will be return the const char* from the Tstring
-
+ 
  const char* Tchar_ptr(); //DIRECT POINTER WITHOUT ANY CONVERTED TYPE OF ANSI OR UNICODE(UTF-8)
  
  constexpr BT_string_internal* get_TypeString();
@@ -52,6 +59,10 @@ class Brii_TypeString
  Brii_TypeString operator+(const char* Tchar_ptr, Brii_TypeString TypeString);
  Brii_TypeString operator+(Brii_TypeString TypeString, const char* Tchar_ptr);
 
+ Brii_TypeString operator<<(Brii_TypeString TS_x, const char* Tchar_ptr);
+ Brii_TypeString operator<<(const char* Tchar_ptr, Brii_TypeString TS_x);
+ Brii_TypeString operator<<(Brii_TypeString TS_x, Brii_TypeString TS_y); 
+ 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

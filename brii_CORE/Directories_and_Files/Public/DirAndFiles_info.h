@@ -17,7 +17,6 @@ namespace Brii_filesEngine
  
  inline BT_String src_Log_files = Brii_DirectoriesEngine::src_LocalizationStr_dir + "Directories/Log_files.csv";
 
-
 }
 
 

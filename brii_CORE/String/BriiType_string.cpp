@@ -17,7 +17,23 @@
  {
   this->Tstring = Tstring_in;
  }
- 
+
+ /////////////convertion of integrals to strings/////////////
+ Brii_TypeString::Brii_TypeString(uint32_t&& n) noexcept
+ {
+  this->Tstring = std::to_string(n);
+ }
+
+ Brii_TypeString::Brii_TypeString(uint32_t& n)
+ {
+  this->Tstring = std::to_string(n);
+ }
+
+ Brii_TypeString::Brii_TypeString(uint32_t n)
+ {
+  this->Tstring = std::to_string(n);
+ }
+
  Brii_TypeString Brii_TypeString::operator=(const Brii_TypeString Tstring_c)
  {
   this->Tstring = Tstring_c.Tstring;
@@ -86,7 +102,18 @@
   return TypeString + Brii_TypeString(Tchar_ptr); 
  }
 
-
+ Brii_TypeString operator<<(Brii_TypeString TS_x, const char* Tchar_ptr)
+ {
+  return TS_x + Brii_TypeString(Tchar_ptr);
+ }
+ Brii_TypeString operator<<(const char* Tchar_ptr, Brii_TypeString TS_x)
+ {
+  return Brii_TypeString(Tchar_ptr) + TS_x;
+ }
+ Brii_TypeString operator<<(Brii_TypeString TS_x, Brii_TypeString TS_y)
+ {
+  return TS_x + TS_y;
+ }
   
  Brii_TypeStringView::Brii_TypeStringView(){};
  

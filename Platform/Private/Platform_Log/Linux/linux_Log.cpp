@@ -2,7 +2,7 @@
 #include "Public/Platform_Brii/Platform_FileSystem.h"
 #include "Public/Platform_Brii/Log_System/Platform_Log.h"
 #include "Localization/LocalizationString_brii.h"
-#include "Directories_and_Files/DirAndFile_Manager.h"
+#include "Directories_and_Files/Public/DirAndFile_Manager.h"
 
  ///THIS INTERNAL localization string is linked specific for the logs, it will save the logs like string, it needs to define a limit
  static BC_locStr* internal_locStr_log{ nullptr }; 

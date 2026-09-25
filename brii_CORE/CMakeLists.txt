@@ -28,6 +28,8 @@ dataManager/dataTypes_brii.cpp
 dataManager/Public/portability_variables.h
 dataManager/Private/portability_variables.cpp
 
+dataManager/uniquePtr/uniquePtrT_brii.h 
+dataManager/uniquePtr/uniquePtrT_brii.cpp
 )
 
 set(FILES_CORE_MANAGER
@@ -62,6 +64,9 @@ String/BriiType_string.cpp
 
 set(LOCALIZATION_CORE
 Localization/LocalizationString_brii.h
+Localization/LocalizationString_brii.cpp
+Localization/Public/SourceLocation_brii.h
+Localization/Private/SourceLocation_brii.cpp
 )
 
 set(DIRECTORIES_AND_FILES

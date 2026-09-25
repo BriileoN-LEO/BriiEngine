@@ -68,11 +68,14 @@ class Brii_logManager
  void clean_register();
  //clean_register functions to implement
  ///-It will call the string localization to empty strings that are from the ram
- 
-  ///the initialization of this log will create all the logs available in the log Type 
+
+ ///the initialization of this log will create all the logs available in the log Type 
 
 };
 
 using BC_LogManager = Brii_logManager; 
 
+
+////CONTINUE HERE AND RESOLVE HOW TO IMPLEMENT HOW TO UPLOAD THE LOGS TO FILESYSTEM TO WRITE THE LOGS IN EACH 
+////FILE, THE LOGS WILL BE DEFINED INSIDE THE DIRECTORIES CATEGORY IN LOCALIZATION STRING
 

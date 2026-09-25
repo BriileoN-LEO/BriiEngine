@@ -17,7 +17,8 @@ enum class Brii_log_category :BT_logCategory
  GENERAL = 0, //[0000]
  ENGINE_DATA = 1,//[0001]         ////THIS LOG IS TO INFORMATION RELATED TO THE ENGINE, specific for the data of the engine
  PLATFORM = 2,//[0010]
- RHI = 3 //[0011]
+ RHI = 3, //[0011]
+ FILE_SYSTEM = 4 //[0100]
 };
 
 namespace Brii_logDef_V ////Log definitions values of each enum class 
@@ -25,11 +26,11 @@ namespace Brii_logDef_V ////Log definitions values of each enum class
 static constexpr BT_logCategory info_t = static_cast<BT_logCategory>(Brii_log_T::LOG_INFO);
 static constexpr BT_logCategory error_t = static_cast<BT_logCategory>(Brii_log_T::LOG_ERROR); 
 
-
-static constexpr BT_logCategory general_c = static_cast<BT_logCategory>(Brii_log_category::GENERAL);
-static constexpr BT_logCategory engine_data_c = static_cast<BT_logCategory>(Brii_log_category::ENGINE_DATA);
-static constexpr BT_logCategory platform_c = static_cast<BT_logCategory>(Brii_log_category::PLATFORM);
-static constexpr BT_logCategory rhi_c = static_cast<BT_logCategory>(Brii_log_category::RHI);
+inline constexpr BT_logCategory general_c = static_cast<BT_logCategory>(Brii_log_category::GENERAL);
+inline constexpr BT_logCategory engine_data_c = static_cast<BT_logCategory>(Brii_log_category::ENGINE_DATA);
+inline constexpr BT_logCategory platform_c = static_cast<BT_logCategory>(Brii_log_category::PLATFORM);
+inline constexpr BT_logCategory rhi_c = static_cast<BT_logCategory>(Brii_log_category::RHI);
+inline constexpr BT_logCategory file_system_c = static_cast<BT_logCategory>(Brii_log_category::FILE_SYSTEM);
 } 
 
 ///HERE I WILL SAVE THE LOGS SYSTEM THAT 
@@ -40,16 +41,18 @@ static constexpr BT_logCategory rhi_c = static_cast<BT_logCategory>(Brii_log_cat
  INFO_ENGINE_DATA_FILE = Brii_logDef_V::engine_data_c << Brii_logDef_V::info_t, //[0010]
  INFO_PLATFORM_FILE = Brii_logDef_V::platform_c << Brii_logDef_V::info_t, //[0100]
  INFO_RHI_FILE = Brii_logDef_V::rhi_c << Brii_logDef_V::info_t, //[0110]
+ INFO_FILE_SYSTEM_F = Brii_logDef_V::file_system_c << Brii_logDef_V::info_t, //[1000]
 
  ERROR_ENGINE_DATA_FILE = Brii_logDef_V::engine_data_c << Brii_logDef_V::error_t, //[1000]
  ERROR_PLATFORM_FILE = Brii_logDef_V::platform_c << Brii_logDef_V::error_t, //[0001 0000]    ///platform_error.txt 
  ERROR_RHI_FILE = Brii_logDef_V::rhi_c << Brii_logDef_V::error_t, //[0001 1000]
- 
+ ERROR_FILE_SYSTEM_F = Brii_logDef_V::file_system_c << Brii_logDef_V::error_t, //[0010 0000]
+
  NOT_FILE = 1 << 12
 };
 
 
- namespace BF_log
+namespace BF_log
 {
  
  using log_type = Brii_log_T;
@@ -63,6 +66,7 @@ static constexpr BT_logCategory rhi_c = static_cast<BT_logCategory>(Brii_log_cat
  inline constexpr category platform_t = Brii_log_category::PLATFORM;
  inline constexpr category engine_data_t = Brii_log_category::ENGINE_DATA; 
  inline constexpr category rhi_t = Brii_log_category::RHI;
+ inline constexpr category file_system_t = Brii_log_category::FILE_SYSTEM;
  
  ////////////////////////////////////////////////////////////////
 
