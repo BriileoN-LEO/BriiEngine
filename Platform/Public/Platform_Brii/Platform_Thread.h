@@ -40,10 +40,10 @@ class alignas(64) Brii_Thread
  void join();
  void detach() const noexcept;
 
- void set_CoreAffinity(BT_ThreadCore core_idx);
- void set_Priority(BF_Thread::priority thread_priority);
- void get_threadID() const noexcept;
- void get_NativeHandle() const noexcept;
+ bool set_CoreAffinity(BT_ThreadCore core_idx);
+ bool set_Priority(BF_Thread::priority thread_priority);
+ BT_ThreadID get_threadID() const noexcept;
+ const Brii_ThreadHandle* get_NativeHandle() const noexcept;
  
 };
 

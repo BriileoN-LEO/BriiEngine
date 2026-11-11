@@ -79,8 +79,34 @@ static bool pthread_attr_setPriority(pthread_attr_t* p_attr, const BF_Thread::pr
  
   get_attr_policy(attr_priority, schedule_policy, param.sched_priority);
 
-  pthread_attr_setschedpolicy(p_attr, schedule_policy);
-  pthread_attr_setschedparam(p_attr, &param);
+  if(pthread_attr_setschedpolicy(p_attr, schedule_policy) != 0)
+  {
+   return false;
+  }
+		
+  if(pthread_attr_setschedparam(p_attr, &param) != 0)
+  {
+   return false;
+  }
+ 
+  return true;
+ }
+
+ return false;
+}
+
+static bool pthread_setPriority(Brii_ThreadHandle* thread_handle, const BF_Thread::priority& attr_priority)
+{
+  if(thread_handle != nullptr)
+ {
+  int schedule_policy {SCHED_OTHER};
+  int prio{}; 
+ 
+  get_attr_policy(attr_priority, schedule_policy, prio);
+
+  pthread_setschedpolicy(thread_handle, schedule_policy);
+  pthread_setschedprio(thread_handle->thread, prio); ///number of level of priority 
+  //pthread_attr_setschedparam(p_attr, &param);
  
   return true;
  }
@@ -104,7 +130,15 @@ static bool set_pthread_attr(pthread_attr_t* ptr_thread_attr, const Brii_ThreadD
      BRII_LOG_ERROR(BF_log::thread_t, BT_String("not inherit explicit sched attribute for thread, worker name = ") + T_description.debug_Name);
      pthread_attr_destroy(ptr_thread_attr);
      return false;
-   }   
+   }  
+
+   ///Set the priority
+   if(!pthread_attr_setPriority(ptr_thread_attr, T_description.T_priority))
+   {
+     BRII_LOG_ERROR(BF_log::thread_t, BT_String("not set priority attribute for thread, worker name = ") + T_description.debug_Name);
+     pthread_attr_destroy(ptr_thread_attr);
+     return false;
+   }
    ////////////////
    //assign core affinity
    //attach thread to a cpu core
@@ -236,10 +270,39 @@ static bool set_pthread_attr(pthread_attr_t* ptr_thread_attr, const Brii_ThreadD
    }
  }
 
- void set_CoreAffinity(BT_ThreadCore core_idx);
- void set_Priority(BF_Thread::priority thread_priority);
- void get_threadID() const noexcept;
- void get_NativeHandle() const noexcept;
+ bool Brii_Thread::set_CoreAffinity(BT_ThreadCore core_idx)
+{
+ if(Thread_Handle != nullptr)
+ {
+   cpu_set_t cpu_set;
+   CPU_ZERO(&cpu_set);
+   CPU_SET(core_idx, &cpu_set); 
+  
+   if(pthread_setaffinity_np(Thread_Handle->thread, sizeof(cpu_set), &cpu_set) != 0)
+   { 
+     BRII_LOG_ERROR(BF_log::thread_t, BT_String("not set attribute Affinity of any core for thread, thread ID = ") + BTL::toString(Thread_Handle->thread_ID));
+     return false;
+   }
+  
+  return true;
+ }
+
+ return false;
+}
+
+ bool Brii_Thread::set_Priority(BF_Thread::priority thread_priority)
+{
+
+}
+ BT_ThreadID Brii_Thread::get_threadID() const noexcept
+{
+
+}
+ const Brii_ThreadHandle* Brii_Thread::get_NativeHandle() const noexcept
+{
+
+}
+
  ///CONTINUE HERE TO FINISH THE THREAD ABSTRACTION
  
 namespace BTL
