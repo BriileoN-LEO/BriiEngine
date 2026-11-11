@@ -13,7 +13,10 @@ set(SETTINGS_ENGINE
  Settings/Settings_UiEngine.h
  Settings/Settings_WindowEngine.h
  Settings/Settings_locString.h
-)
+ Settings/Settings_JobSystem.h
+ Settings/Settings_Thread.h
+ Settings/Settings_Time.h
+}
 
 set(DATA_MANAGER
 dataManager/algorithms_brii.h
@@ -30,6 +33,9 @@ dataManager/Private/portability_variables.cpp
 
 dataManager/uniquePtr/uniquePtrT_brii.h 
 dataManager/uniquePtr/uniquePtrT_brii.cpp
+
+dataManager/vector_brii/vectorT_brii.h
+
 )
 
 set(FILES_CORE_MANAGER

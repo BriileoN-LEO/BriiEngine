@@ -30,15 +30,7 @@ using BT_FlagsU64 = uint64_t;
 using BT_FlagsInt = int;
 
 
-///POINTERS
-
-template<typename T>
-using BT_UniquePtr = BT_uniquePtr_btl<T>;
-
-template<typename T>
-using BT_SharePtr = std::shared_ptr<T>;
-
-//----------------------
+//------------------------------------------
 
 ///CONTAINERS
 //template<typename T, size_t S>
@@ -68,7 +60,8 @@ using BT_StringID_32 = uint32_t;
 ///for FileSystem
 using BT_FileSystemID = int;
 using BT_ios_openFlags = BT_FlagsU16;
-using BT_ios_openPermFlags = BT_FlagsU64; 
+using BT_ios_openPermFlags = BT_FlagsU64;
+using BT_ios_errorFlags = BT_FlagsU16;
 //using BT_FileSystem_Flags = BT_ComponentFlags64;
 
 //SPECIFIC TYPES WINDOW
@@ -83,6 +76,26 @@ using BT_LocStr_Flags = BT_FlagsU64;
 //PORTABILITY TYPES
 template<typename T>
 using BT_port_voidPtr = Brii_port_voidPtr<T>;
+
+//-----------------------------------------
+using BT_ThreadID = uint64_t;
+using BT_ThreadCore = long;
+
+
+//------------------------------------------
+///POINTERS
+
+///SMART 
+template<typename T>
+using BT_UniquePtr = BT_uniquePtr_btl<T>;
+
+template<typename T>
+using BT_SharePtr = std::shared_ptr<T>;
+
+
+///FUNCTION
+using BT_FuncPtr_Emp = void(*)();
+
 
 //----------------------------------------------------------
 
@@ -116,6 +129,13 @@ using BT_port_voidPtr = Brii_port_voidPtr<T>;
   using underlying_T = std::underlying_type_t<T>;
   return static_cast<bool>(static_cast<underlying_T>(f1) & static_cast<underlying_T>(f2));
  }
+ 
+ template<typename T, typename = std::enable_if_t<is_bitmask_flag<T>>>
+ constexpr bool operator !=(T f1, T f2) 
+{  
+ using underlying_T = std::underlying_type_t<T>;
+ return static_cast<bool>(static_cast<underlying_T>(f1) != static_cast<underlying_T>(f2));
+}
 
  template<typename T, typename = std::enable_if_t<is_bitmask_flag<T>>>
  constexpr T operator ^=(T f1, T f2)                                    //Operator (^) works like to quit(if the f1 have the flag) or add(if f1 not have the flag) a flag
@@ -130,6 +150,10 @@ using BT_port_voidPtr = Brii_port_voidPtr<T>;
  using underlying_T = std::underlying_type_t<T>; 
  return static_cast<T>(static_cast<underlying_T>(f1) | static_cast<underlying_T>(f2));
 }
+ 
+
+
+ 
  
 //}
 

@@ -33,8 +33,21 @@ inline constexpr BT_String str_categoryLog(const BF_log::category& logCategory)
      {
       return BT_String("[RHI]");
      }
+    case BF_log::file_system_t :
+     {
+       return BT_String("[FILE_SYSTEM]");
+     }
+    case BF_log::thread_t : 
+     {  
+       return BT_String("[THREAD]");
+     }
+    case BF_log::job_schedule_t :
+     {
+       return BT_String("[JOB_SCHEDULE]");
+     }
    }
   
+  return BT_String{};
  }
 inline constexpr BT_String str_logType(const BF_log::log_type& logType)
 {

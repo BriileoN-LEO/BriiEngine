@@ -10,19 +10,18 @@
    private:
 
    void* log_f{};
-   using idx_t = T;
 
    public: 
    Brii_port_voidPtr(){};
 
-   inline void insert_log_f(idx_t* log_f)
+   inline void insert_log_f(T* log_f)
    {
      this->log_f = static_cast<void*>(log_f);
    }
  
-   inline idx_t* get_LogFile_w()
+   inline T* get_LogFile_w()
    {
-     return static_cast<idx_t*>(log_f);
+     return static_cast<T*>(log_f);
    }
 
    inline void clear()

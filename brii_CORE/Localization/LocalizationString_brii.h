@@ -20,7 +20,10 @@ class Brii_localizationString
  ///Find in the hash table if the string exists with the stringID
  BT_String* get_str_byID(BT_StringID* stringID);
  BT_String* get_str_byID(BT_StringID stringID);
- 
+
+ bool delete_str(BT_StringID* str_ID);
+ bool delete_str(BT_StringID str_ID);
+
 };
 
 using BC_locStr = Brii_localizationString;
@@ -30,11 +33,11 @@ using BC_locStr = Brii_localizationString;
 class Brii_locString_Manager
 {
  private: 
- std::array<BT_UniquePtr<BC_locStr>, BF_locString::loc_container_size> localization_strings{};
+ std::array<BT_UniquePtr<BC_locStr>, BF_locString::loc_container_size> localization_strings;
 
  public:
 
- constexpr Brii_locString_Manager()
+ explicit constexpr Brii_locString_Manager()
  {
   localization_strings[BF_locString::log_hashTable_p] = BTL::make_unique<BC_locStr>(BF_locString::log_str_t, BF_locString::log_hashT_size);
   localization_strings[BF_locString::directories_user_hashTable_p] = BTL::make_unique<BC_locStr>(BF_locString::directories_user_str_t, BF_locString::directories_user_hashT_size);
@@ -49,9 +52,8 @@ class Brii_locString_Manager
   BT_String* get_str_byCategory(BT_StringID stringID, BF_locString::category locStr_category);
   BT_String* get_str_byCategory(BT_StringID* stringID, BF_locString::category locStr_category);
    
-  BT_String* get_str_byPos(BT_StringID stringID, size_t locStr_category);
-  BT_String* get_str_byPos(BT_StringID* stringID, size_t locStr_category);
-
+  BT_String* get_str_byPos(BT_StringID stringID, size_t locStr_pos);
+  BT_String* get_str_byPos(BT_StringID* stringID, size_t locStr_pos);
 
 
  ////CONTINUE BUILDING the loc to find in all locStr the strings by ID 
@@ -59,7 +61,7 @@ class Brii_locString_Manager
   
  ////CONTINUE HERE TO ABSTRACT MORE THE UNIQUE POINTER, to not put std::make_unique
   ///then implement in the file sistem the functions to find in all categories of directory the ID to get the directory string
-  ///implement in the function is_writtenBytesMatch
+ 
   ///remember to link the loc_strManager from app_BriiEngine 
 
 };
@@ -73,8 +75,8 @@ namespace app_BriiEngine
  ///this function finds in all the directories category the string of directories
  BT_String* getStr_allDirCategory_f(BT_StringID* dir_str_ID);
 
+ const BT_String* get_logStr(BT_StringID* logStrID);
+ const BT_String* get_Str(BT_StringID* strID);
 
- ////CONTINUE HERE
-///Add some logs in the functions created.
-
+ bool delete_str_locStr(BT_StringID* strID); 
 }

@@ -11,10 +11,19 @@ Public/Platform_Brii/Log_System/Platform_Log.h
 Public/Platform_Brii/Log_System/Platform_logCalls.h
 Public/Platform_Brii/Platform_IOS.h
 Public/Platform_Brii/Platform_Types.h
+Public/Platform_Brii/Platform_Thread.h
 )
+
+set(PLATFORM_CORE_SYSTEMS
+Public/CoreSystems_Brii/Job_Scheadule.h
+
+)
+
+
 
 add_library(Brii_Platform STATIC  
 ${PLATFORM_BRII} 
+${PLATFORM_CORE_SYSTEMS}
 )
 #SDL
 #-Call the OS to make the events, inputs and outputs
@@ -27,6 +36,7 @@ Private/Platform_SDL/Public/SDL3_WindowDefinitions.cpp
 Private/Platform_SDL/Public/SDL3_libraries.h
 Private/Platform_SDL/Public/SDL3_window.cpp
 Private/Platform_SDL/Public/SDL3_Input.cpp
+Private/CoreSystems_OS/Job_Schedule/Job_Schedule_generalBrii.cpp
 )
 
 
@@ -40,8 +50,11 @@ if(UNIX AND NOT APPLE)
 set(PLATFORM_LINUX
 Private/Platform_SDL/Private/Linux/SDL3_WindowDef_Linux.cpp
 Private/FileSystem_OS/Linux/FileSystem_POSIX.cpp
+Private/Platform_Log/Linux/linux_Log.cpp
 Private/Platform_Log/Linux/linux_LogCalls.cpp
 Private/Platform_Iostream/linux_IOS.cpp
+Private/CoreSystems_OS/Job_Schedule/Job_Schedule_Linux.cpp
+Private/Thread_OS/Thread_POSIX.cpp
 )
 
 target_sources(Brii_Platform PRIVATE ${PLATFORM_LINUX})

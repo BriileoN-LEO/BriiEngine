@@ -17,6 +17,7 @@ struct Brii_logContext
 namespace Brii_logM
 {
  void link_locStrLog(void* locStrLog);
+ void link_locStr_LogDir(void* locStr_logDir);
  void link_FS_Manager(void* FS_Manager);
 }
 
@@ -26,7 +27,6 @@ struct Brii_log
  BT_StringID messageID{};
 
  BF_log::file_w file_to_save{};
- BT_BoolStruct save_in_file{}; ///IF THIS LOG NEED TO BE SAVE IN FILE
  //std::string name_log_T{};
  
  ///HERE SAVE A VECTOR OF BE_logContext 
@@ -49,7 +49,7 @@ class Brii_logManager
  ///-When the log of callstack is printed the content will go to the logs_register stack and it will be deleted from logs_callStack
 
  private:
- std::vector<Brii_log> logs_callStack{};
+ std::vector<Brii_log> logs_callStack{}; //The logs are saved here because if some certain console select certain categories to print in their console
  std::vector<Brii_logRegister> logs_register{};
  
  public:
@@ -57,7 +57,7 @@ class Brii_logManager
  Brii_logManager();
  ~Brii_logManager();
  
- void insert_logCallStack(BF_log::category log_category, BT_String& message, BT_BoolStruct save_in_file = false, BF_log::file_w file_to_save = BF_log::not_f);
+ void insert_logCallStack(BF_log::category log_category, BT_String& message, BF_log::file_w file_to_save = BF_log::not_f);
  void register_log(Brii_log& log_toRegister);
   
  ////This function will upload the logs of the callstack in the FS

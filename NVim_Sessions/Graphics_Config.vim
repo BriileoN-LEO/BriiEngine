@@ -23,8 +23,8 @@ badd +1 brii_CORE/Settings/Settings_UiEngine.h
 badd +37 brii_CORE/Settings/Settings_BriiEngine.h
 badd +21 brii_CORE/Application_Engine/Public/Application.h
 badd +37 Platform/Public/Platform_Brii/Platform_Window.h
-badd +60 brii_CORE/dataManager/dataTypes_brii.h
-badd +37 brii_CORE/dataManager/convertion_DataManager.h
+badd +62 brii_CORE/dataManager/dataTypes_brii.h
+badd +80 brii_CORE/dataManager/convertion_DataManager.h
 badd +19 brii_CORE/dataManager/algorithms_brii.h
 badd +1 brii_CORE/dataManager/convertion_DataManager.cpp
 badd +35 brii_CORE/dataManager/dataTypes_brii.cpp
@@ -32,8 +32,8 @@ badd +29 brii_CORE/files_CoreManager/files_Core.h
 badd +233 build/release/_deps/sdl3-src/include/SDL3/SDL_video.h
 badd +23 brii_CORE/Application_Engine/Private/Application_PC.cpp
 badd +101 brii_COOKER/manager_briiCooker.h
-badd +22 brii_COOKER/manager_briiCooker.cpp
-badd +141 brii_CORE/model_binFormat.h
+badd +2305 brii_COOKER/manager_briiCooker.cpp
+badd +136 brii_CORE/model_binFormat.h
 badd +1 ~/CPP_proyects/Engine_Test
 badd +17 brii_CORE/dataManager/containerTypes_manager.h
 badd +58 learningOpenGL/optimize_Algorithmics/optimizeAlgorithmics.h
@@ -42,13 +42,13 @@ badd +48 brii_CORE/String/stringID_brii.cpp
 badd +32 learningOpenGL/learningOpenGL.h
 badd +32 learningOpenGL/CMakeLists.txt
 badd +7 Platform/Private/FileSystem_OS/FileSystem_POSIX.cpp
-badd +66 Platform/Public/Platform_Brii/Platform_FileSystem.h
+badd +40 Platform/Public/Platform_Brii/Platform_FileSystem.h
 badd +3 brii_CORE/material_binFormat.h
 badd +13 brii_CORE/systemManager/platform_Manager.h
 badd +1 Platform/Public/Platform_Brii/Platform_Input.h
-badd +229 Platform/Private/FileSystem_OS/Linux/FileSystem_POSIX.cpp
+badd +289 Platform/Private/FileSystem_OS/Linux/FileSystem_POSIX.cpp
 badd +267 brii_CORE/mesh_binFormat.h
-badd +37 brii_CORE/Settings/Settings_FileSystem.h
+badd +84 brii_CORE/Settings/Settings_FileSystem.h
 badd +1 brii_CORE/texturesPack_binFormat.h
 badd +1 assets_engine/Localization/English_Lenguage/Window_EngineBrii/Principal_Window.csv
 badd +201 CMakeLists.txt
@@ -66,12 +66,12 @@ badd +1 brii_CORE/dataManager/containerTypes_manager.cpp
 badd +131 /usr/include/bits/types.h
 badd +74 /usr/include/bits/typesizes.h
 badd +160 /usr/include/sys/stat.h
-badd +63 brii_CORE/Localization/LocalizationString_brii.h
+badd +74 brii_CORE/Localization/LocalizationString_brii.h
 badd +36 Graphics/Public/Graphics_Interface/IGraphics_brii.h
 badd +26 brii_CORE/systemManager/logger.h
 badd +22 brii_CORE/systemManager/logger.cpp
 badd +1 Platform/Public/Platform_Brii/Platform_Log.h
-badd +83 brii_CORE/Settings/Settings_LogEngine.h
+badd +69 brii_CORE/Settings/Settings_LogEngine.h
 badd +1 brii_CORE/dataManager/algorithms_brii.cpp
 badd +1 Platform/Private/Platform_SDL/Public/SDL3_Input.cpp
 badd +8 Graphics/Public/Graphics_Interface/IGraphics_brii.cpp
@@ -80,14 +80,14 @@ badd +1 Graphics/Public/RHI_Settings/RHI_Factory.h
 badd +18 Graphics/Private/IG_OpenGL/IGraphics_OpenGL.cpp
 badd +118 learningOpenGL/learningOpenGL.cpp
 badd +1 learningOpenGL/main_EngineBrii/Private/main_SDL.cpp
-badd +26 Platform/Public/Platform_Brii/Log_System/Platform_logCalls.h
+badd +37 Platform/Public/Platform_Brii/Log_System/Platform_logCalls.h
 badd +74 Platform/Public/Platform_Brii/Log_System/Platform_Log.h
 badd +1 Platform/Private/Platform_Log/generic_LogCalls.cpp
 badd +235 term://~/CPP_proyects/Engine_Test//34199:/usr/bin/bash
 badd +56 Platform/Private/Platform_Log/Linux/linux_LogCalls.cpp
 badd +12 Platform/Public/Platform_Brii/Platform_IOS.h
 badd +10 Platform/Private/Platform_Iostream/linux_IOS.cpp
-badd +36 brii_CORE/String/BriiType_string.h
+badd +55 brii_CORE/String/BriiType_string.h
 badd +35 brii_CORE/String/BriiType_string.cpp
 badd +785 /usr/include/c++/16/string_view
 badd +79 /usr/include/c++/16/bits/stringfwd.h
@@ -112,12 +112,13 @@ badd +222 brii_CORE/files_CoreManager/files_Core.cpp
 badd +4 Platform/Private/FileSystem_OS/Windows/FileSystem_Windows.cpp
 badd +108 /usr/include/sys/types.h
 badd +46 /usr/include/c++/16/source_location
-badd +32 brii_CORE/Localization/Public/SourceLocation_brii.h
+badd +36 brii_CORE/Localization/Public/SourceLocation_brii.h
 badd +9 brii_CORE/Localization/Private/SourceLocation_brii.cpp
 badd +1 brii_CORE/glm_lib.h
 badd +241 term://~/CPP_proyects/Engine_Test//14697:/usr/bin/bash
 badd +34 brii_CORE/dataManager/uniquePtr/uniquePtrT_brii.h
 badd +1 brii_CORE/dataManager/uniquePtr/uniquePtrT_brii.cpp
+badd +31 brii_COOKER/dataCooker.cpp
 argglobal
 %argdel
 $argadd ~/CPP_proyects/Engine_Test
@@ -160,18 +161,30 @@ sil! 174,188fold
 sil! 172,198fold
 sil! 202,209fold
 sil! 200,212fold
-sil! 214,230fold
-sil! 236,241fold
-sil! 234,244fold
-sil! 247,258fold
-sil! 261,267fold
+sil! 226,230fold
+sil! 220,231fold
+sil! 233,238fold
+sil! 214,247fold
+sil! 253,258fold
+sil! 251,261fold
+sil! 265,270fold
+sil! 263,273fold
+sil! 277,281fold
+sil! 275,283fold
+sil! 287,291fold
+sil! 285,293fold
+sil! 299,302fold
+sil! 304,307fold
+sil! 295,310fold
+sil! 313,324fold
+sil! 327,333fold
 let &fdl = &fdl
-let s:l = 223 - ((26 * winheight(0) + 23) / 47)
+let s:l = 233 - ((29 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 223
-normal! 0
+keepjumps 233
+normal! 027|
 lcd ~/CPP_proyects/Engine_Test
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'

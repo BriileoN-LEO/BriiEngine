@@ -3,7 +3,6 @@
 #include "Public/Platform_Brii/Log_System/Platform_Log.h"
 #include "Public/Platform_Brii/Platform_IOS.h"
 
-
 static BC_LogManager* internal_LogManager { nullptr };
 
 namespace Brii_logCallsM
@@ -25,31 +24,33 @@ namespace Brii_logCallsM
   return loc;
  }
 */
-  void logDescriptor(BF_log::category& logCategory, const BF_log::log_type& logType, BT_String message, bool writeLog, bool logOrigin, const BT_SourceLoc& location)
+  void logDescriptor(BF_log::category& logCategory, BF_log::log_type& logType, BT_String message, bool writeLog, bool logOrigin, const BT_SourceLoc& location)
 {
   BT_String log {str_logType(logType) + str_categoryLog(logCategory) + message + " "};
  
  if(logOrigin == true)
  { 
-  log += location.get_Str_Info();
+  const BT_String str_info { location.get_Str_Info() };
+  log += str_info;
  }
 
  log += " \n";
 
- Brii_ios::MessageToConsoleDebug(message.Tchar_ptr());
+ //Brii_ios::MessageToConsoleDebug(message.Tchar_ptr());
   
  if(writeLog == true)
  {
  BF_log::file_w file_to_save {BF_log::getFile_w(logCategory, logType)};
- internal_LogManager->insert_logCallStack(logCategory, message, writeLog, file_to_save);
+ internal_LogManager->insert_logCallStack(logCategory, message, file_to_save);
  }
  
  else if(writeLog == false)
  {
-  internal_LogManager->insert_logCallStack(logCategory, message, writeLog);
+  internal_LogManager->insert_logCallStack(logCategory, message, BF_log::not_f);
  }
 
 }
+
  
 }
 
@@ -60,7 +61,9 @@ namespace Brii_logCallsM
 
  if(logOrigin)
  {
-  log += location.get_Str_Info();
+  const BT_String str_info { location.get_Str_Info() };
+  log += str_info;
+//  log += location.get_Str_Info();
  }
 
  Brii_ios::MessageToConsoleDebug(message.Tchar_ptr());

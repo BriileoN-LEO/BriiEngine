@@ -13,72 +13,63 @@ class brii_uniquePtrType
 {
  private:
 
- BT_uniquePtr_internal<T> uniquePtr{};
+ //BT_uniquePtr_internal<T> uniquePtr;
+
+ T* uniquePtr;
 
  public:
 
- ///TRANSFARE THE UNIQUE POINTER
-// brii_uniquePtrType() = default;
-  ///BUILDING THE TYPE UNIQUE POINTER BY ARGUMENTS
- brii_uniquePtrType(Args&&... args)
- {
-  uniquePtr = std::make_unique<T>(T(std::forward<Args>(args)...));
- } 
- brii_uniquePtrType(brii_uniquePtrType&& var) noexcept
- { 
-  uniquePtr = std::move(var.uniquePtr);
-  var.clear();
- }
- brii_uniquePtrType(brii_uniquePtrType& var)
- {
-  uniquePtr = std::move(var.uniquePtr);
-  var.clear();
- }
+ explicit brii_uniquePtrType() : uniquePtr(nullptr){};
+ explicit brii_uniquePtrType(std::nullptr_t) : uniquePtr(nullptr){};
 
- ///IF IS ONLY PASS THE TYPE
- brii_uniquePtrType(T&& var) noexcept
- {
-  uniquePtr = std::make_unique<T>(var);
- }
- brii_uniquePtrType(T& var)
- { 
-  uniquePtr = std::make_unique<T>(var);
- }
- 
- ~brii_uniquePtrType() = default;
+ explicit brii_uniquePtrType(T* varPtr) : uniquePtr(varPtr){}; 
 
- brii_uniquePtrType operator=(brii_uniquePtrType&& var) noexcept
+  ~brii_uniquePtrType()
  {
-  uniquePtr = std::move(var.uniquePtr);
- }
- brii_uniquePtrType operator=(brii_uniquePtrType& var)
+   if(uniquePtr != nullptr)
+  {
+   clear();
+  }
+ };
+
+ //brii_uniquePtrType(const T&& var) noexcept = delete;
+ brii_uniquePtrType(const T& var) = delete;
+  
+ brii_uniquePtrType& operator=(brii_uniquePtrType& var) = delete;
+ brii_uniquePtrType& operator=(brii_uniquePtrType&& var) noexcept
  {
-  uniquePtr = std::move(var.uniquePtr);
-  var.clear();
- }
- brii_uniquePtrType operator=(T&& var) noexcept
- {
-   uniquePtr = std::make_unique<T>(var);
- }
- brii_uniquePtrType operator=(T& var)
- {
-  uniquePtr = std::make_unique<T>(var);
+  if(this != &var)
+  {
+    if(uniquePtr != nullptr)
+   {
+    clear(); 
+   }
+
+   uniquePtr = var.uniquePtr;
+   var.uniquePtr = nullptr;
+    
+  }
+   
+  return *this;
  }
 
  T* operator->() const
  {
-  return uniquePtr.get();
+  return uniquePtr;
  }
-
+ T& operator*() const
+ {
+  return &uniquePtr;
+ }
 
  T* get() const
  {
-   return uniquePtr.get();
+   return uniquePtr;
  }
 
  void clear() const 
  {
-  uniquePtr = nullptr;
+  delete uniquePtr;
  }
 };
 
@@ -87,28 +78,33 @@ using BT_uniquePtr_btl = brii_uniquePtrType<T>;
 
 namespace BTL
 {
+
  template<typename T, typename... Args>
+ //requires (std::is_lvalue_reference_v<Args> && ...)
  BT_uniquePtr_btl<T> make_unique(Args&&... args)
  {
-  return BT_uniquePtr_btl<T>(T(std::forward<Args>(args)...)); ///THIS FUNCTIONS LINKS with the constnuctor of args in unique ptr brii 
+  return BT_uniquePtr_btl<T>(new T(std::forward<Args>(args)...)); ///THIS FUNCTIONS LINKS with the constructor of args in unique ptr brii 
  }
 
  template<typename T>
-  BT_uniquePtr_btl<T> make_unique(T&& var)
- {
-  return BT_uniquePtr_btl<T>(var); 
- }
-
- template<typename T>
-  BT_uniquePtr_btl<T> make_unique(T& var)
- {
-  return BT_uniquePtr_btl<T>(var); 
- }
-
-  template<typename T>
+ requires std::is_rvalue_reference_v<T> ///&&
   BT_uniquePtr_btl<T> make_unique(T var)
  {
-  return BT_uniquePtr_btl<T>(var); 
+  return BT_uniquePtr_btl<T>(new T(var)); 
+ }
+
+ template<typename T, typename... Args> ///&
+ requires std::is_lvalue_reference_v<T>
+  BT_uniquePtr_btl<T> make_unique(T var)
+ {
+  return BT_uniquePtr_btl<T>(new T(var)); 
+ }
+
+ template<typename T>
+ requires (!std::is_reference_v<T> && !std::is_pointer_v<T>) ///nothing 
+ BT_uniquePtr_btl<T> make_unique(T var)
+ {
+  return BT_uniquePtr_btl<T>(new T(var)); 
  }
 
 }

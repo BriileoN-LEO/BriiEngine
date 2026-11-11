@@ -4,7 +4,7 @@
 #include "String/stringID_brii.h"
 
 using BT_logT = BT_FlagsU32;
-using BT_logCategory = BT_FlagsU64; ////LOGS CATEGORY ALWAYS HAVE THE BIGGEST TYPE OF VALUE
+using BT_logCategory = BT_StringID_64; ////LOGS CATEGORY ALWAYS HAVE THE BIGGEST TYPE OF VALUE
 
 enum class Brii_log_T : BT_logT
 {
@@ -12,13 +12,15 @@ enum class Brii_log_T : BT_logT
  LOG_ERROR = 3
 };
 
-enum class Brii_log_category :BT_logCategory
+enum class Brii_log_category : BT_logCategory
 {
  GENERAL = 0, //[0000]
  ENGINE_DATA = 1,//[0001]         ////THIS LOG IS TO INFORMATION RELATED TO THE ENGINE, specific for the data of the engine
  PLATFORM = 2,//[0010]
  RHI = 3, //[0011]
- FILE_SYSTEM = 4 //[0100]
+ FILE_SYSTEM = 4, //[0100]
+ THREAD = 5,
+ JOB_SCHEDULE = 6
 };
 
 namespace Brii_logDef_V ////Log definitions values of each enum class 
@@ -67,6 +69,8 @@ namespace BF_log
  inline constexpr category engine_data_t = Brii_log_category::ENGINE_DATA; 
  inline constexpr category rhi_t = Brii_log_category::RHI;
  inline constexpr category file_system_t = Brii_log_category::FILE_SYSTEM;
+ inline constexpr category thread_t = Brii_log_category::THREAD;
+ inline constexpr category job_schedule_t = Brii_log_category::JOB_SCHEDULE;
  
  ////////////////////////////////////////////////////////////////
 
@@ -84,15 +88,20 @@ namespace BF_log
  inline constexpr file_w error_engine_data_f = Brii_log_File::ERROR_ENGINE_DATA_FILE;
  inline constexpr file_w error_platform_f = Brii_log_File::ERROR_PLATFORM_FILE; 
 
-  inline constexpr file_w getFile_w(category& logCategory, log_type logType)
+ inline constexpr file_w getFile_w(category& logCategory, log_type logType)
  { 
   return static_cast<file_w>(static_cast<BT_logCategory>(logCategory) << static_cast<BT_logT>(logType));
  }
- 
 
+ inline constexpr BT_StringID get_FileSrcLoc_ID(file_w* file_T)
+ {
+  using underlying_T = std::underlying_type_t<file_w>; 
+  return BT_StringID(static_cast<underlying_T>(*file_T));
+ }
  
 
 }
+
 
 
 

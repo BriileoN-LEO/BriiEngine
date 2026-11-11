@@ -344,6 +344,7 @@ namespace render
 				renderNormalScenario();
 			}
 		}
+
 		void renderEditMode_Advance()
 		{
 			if (ControlScenarios::cleanScenario == true)

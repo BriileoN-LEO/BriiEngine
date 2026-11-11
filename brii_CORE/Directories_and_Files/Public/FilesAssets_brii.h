@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DirAssets_brii.h"
+#include "DirAndFiles_info.h"
 
 namespace Brii_filesEngine
 {
@@ -8,10 +8,7 @@ namespace Brii_filesEngine
 
   namespace English_Lenguage
  { 
-  
-  
-  static BT_String src_dir_english = Brii_DirectoriesEngine::src_LocalizationStr_dir + "English_Lenguage/"; 
-  
+  static BT_String src_dir_english = Brii_DirectoriesEngine::src_LocalizationStr_dir + "English_Lenguage/";  
   static BT_String principal_window = src_dir_english + "Principal_Window.csv";
  } 
 

@@ -41,6 +41,7 @@ class Brii_TypeString
  Brii_TypeString operator=(const Brii_TypeString Tstring_c);
 
  Brii_TypeString operator+=(Brii_TypeString&& Tstring_c);
+ Brii_TypeString operator+=(Brii_TypeString Tstring_c);
  Brii_TypeString operator+=(const BT_string_internal&& Tstring_c);
  Brii_TypeString operator+=(const char* Tstring_c); 
  
@@ -53,6 +54,9 @@ class Brii_TypeString
  const char* Tchar_ptr(); //DIRECT POINTER WITHOUT ANY CONVERTED TYPE OF ANSI OR UNICODE(UTF-8)
  
  constexpr BT_string_internal* get_TypeString();
+
+ ssize_t str_len() const;
+ ssize_t str_sizeBytes() const;
 };
 
  Brii_TypeString operator+(Brii_TypeString TS_x, Brii_TypeString TS_y); 
@@ -86,10 +90,13 @@ class Brii_TypeStringView
 
  BT_StringView_internal& get();
  const char* data();
-
-
 };
 
+namespace BTL
+{
+ Brii_TypeString toString(auto i);
+
+}
 
 ///10/09/2026
 ///Complete this functions to make a convertion encode of BT_string_global

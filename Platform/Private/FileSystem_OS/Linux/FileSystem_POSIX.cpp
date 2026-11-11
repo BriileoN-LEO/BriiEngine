@@ -92,6 +92,21 @@ struct Brii_FileSystemHandle
  
 };
 
+bool Brii_FileSystem::get_sizeBytes_file(int& ID_FS)
+{
+ struct stat st_Bytes;  ///Review this variable if is acceptable, or declare this struct
+ 
+ if(fstat(ID_FS, &st_Bytes) == -1)
+ {
+  BRII_LOG_ERROR(BF_log::file_system_t, "error reading bytes from open file");
+  return false;
+ }
+  
+ number_bytes = st_Bytes.st_size;
+ return true;
+}
+
+
 Brii_FileSystem::Brii_FileSystem(){};
 Brii_FileSystem::~Brii_FileSystem()
 {
@@ -137,6 +152,7 @@ bool Brii_FileSystem::open_file(BT_StringView file_dir, BF_Ios::openMode open_fl
 
 ////CONTINUE HERE TO DECLARE IF OPEN GETS AN ERROR,
  ///in obsidian declare the new types values
+  directoryF_ID = BT_StringID(file_dir.data());
   return true;
  }
  return false;
@@ -155,31 +171,24 @@ bool Brii_FileSystem::is_open()
  return false;
 }
 
-bool Brii_FileSystem::get_sizeBytes_file(int& ID_FS)
-{
- struct stat st_Bytes;  ///Review this variable if is acceptable, or declare this struct
- 
- if(fstat(ID_FS, &st_Bytes) == -1)
- {
-  BRII_LOG_ERROR(BF_log::file_system_t, "error reading bytes from open file");
-  return false;
- }
-  
- number_bytes = st_Bytes.st_size;
- return true;
-}
+
 
 bool Brii_FileSystem::write_file(const void* data_buffer, ssize_t data_bytes_size, ssize_t offset, const BT_SourceLoc& location_write)
  {
-    if(is_open())
-   { 
+   if(is_open())
+  { 
+    if((data_buffer == nullptr) || (data_bytes_size > 0))
+   {
+    BRII_LOG_ERROR(BF_log::file_system_t, "File is not open in localization = " + location_write.get_Str_Info() + " | is not posible to write file", false, true); 
+    return false;
+   }  
     ssize_t count_bytes_written { pwrite(FS_handle->fs_ID, data_buffer, data_bytes_size, offset) };
     
-    if(is_written(count_bytes_written, location_write))
+    if(!is_written(count_bytes_written, location_write))
     {
-     if(!is_writtenBytesMatch(count_bytes_written, data_bytes_size, location_write))
+     if(!is_writtenBytesMatch(count_bytes_written, data_bytes_size, location_write) && count_bytes_written > 0)
      {
-      delete_bytesWritten(count_bytes_written);
+      restore_LastBytesWritten();
       return false;
      }
     }
@@ -192,36 +201,67 @@ bool Brii_FileSystem::write_file(const void* data_buffer, ssize_t data_bytes_siz
  ///INVESTIGATE
  ///Write the file write_file_Linux en obsidian
   //const BT_String loc_info {location_write
-  BRII_LOG("File is not open in localization = " + location_write.get_Str_Info()); 
-
-  return false; 
+  BRII_LOG_ERROR(BF_log::file_system_t, "File is not open in localization = " + location_write.get_Str_Info() + " | is not posible to write file", false, true);return false; 
  }
+
+bool Brii_FileSystem::is_written(ssize_t& bytes_writing, const BT_SourceLoc& location_write)
+ {
+   if(bytes_writing < 0)
+  {
+   BT_String* dir_file { app_BriiEngine::getStr_allDirCategory_f(&directoryF_ID) }; 
+   BRII_LOG_ERROR(BF_log::file_system_t, "is not posible write in file = " + *dir_file, false, true, location_write);
+
+   review_file |= BF_Ios::error_write_file;
+   return false;
+  }
+ 
+  return true;
+ }
+
 
  bool Brii_FileSystem::is_writtenBytesMatch(ssize_t& bytes_writing, ssize_t& size_bytes_file, const BT_SourceLoc& location_write)
  { 
    if(bytes_writing != size_bytes_file)
   {
-   BT_String* dir_file { app_BriiEngine::getStr_allDirCategory_f(directoryF_ID) };
+   BT_String* dir_file { app_BriiEngine::getStr_allDirCategory_f(&directoryF_ID) };
    BRII_LOG_ERROR(BF_log::file_system_t, "the bytes written not match with the expected bytes to write in file = " + *dir_file, false, true, location_write);
    BRII_LOG_ERROR(BF_log::file_system_t, "memory is full of space before writting in file, liberate space");
-
+ 
+   review_file |= BF_Ios::error_write_bytes_match;
    return false;
   }
  
   return true;
  }
  
- void Brii_FileSystem::delete_bytesWritten(ssize_t& bytes_writing)
+ void Brii_FileSystem::restore_LastBytesWritten()
  {
-  void* buffer {};
-  ssize_t last_bytes = read(FS_handle->fs_ID, buffer, number_bytes);
-  
-  close(FS_handle->fs_ID);
-  FS_handle = nullptr; 
-  ///SEE HERE IF DELETE FS_handle or not the pointer
-  ////only delete the ID and close the file, not delete the other variables 
+  //void* buffer {};
+  //ssize_t last_bytes = read(FS_handle->fs_ID, buffer, number_bytes);
+  BT_String* str_dir { app_BriiEngine::getStr_allDirCategory_f(&directoryF_ID) };
+ 
+  if(!(open_f && BF_Ios::o_truncF))
+  {
+   close(FS_handle->fs_ID);
+   FS_handle = nullptr;
+   open_f |= BF_Ios::o_truncF;  
+   
+   if(!open_file(*str_dir, open_f, open_p))
+   { 
+    review_file |= BF_Ios::error_open_file;
+    return;
+   }
+  }
 
-  open_file(
+  if(ftruncate(FS_handle->fs_ID, number_bytes) == -1)
+  {
+   BRII_LOG_ERROR(BF_log::file_system_t, "fail restore to last written bytes, file = " + *str_dir); 
+   review_file |= BF_Ios::error_truncate_bytes;
+   return;
+  }
+ 
+  ////implement the pool_thread
+
   ///CONTINUE HERE 25/09/2026
   ///TRUNCATE and delete the content of file and put the rest of the buffer.
   ///Implement the localization string to solicitud the ID of the string directories to any function
@@ -231,25 +271,71 @@ bool Brii_FileSystem::write_file(const void* data_buffer, ssize_t data_bytes_siz
  
  
 
- bool Brii_FileSystem::is_written(ssize_t& bytes_writing, const BT_SourceLoc& location_write)
+ 
+ bool Brii_FileSystem::read_file(void* data_buffer, ssize_t size_bytes_read, ssize_t offset, const BT_SourceLoc& location_read)
  {
-   if(bytes_writing < 0)
+   if(is_open())
+   { 
+    ssize_t count_bytes_read { pread(FS_handle->fs_ID, data_buffer, size_bytes_read, offset) }; 
+
+    return true;
+   }
+
+  return false;
+ }
+
+ bool Brii_FileSystem::is_read(ssize_t& bytes_read, const BT_SourceLoc& location_read)
+ {
+  if(bytes_read < 0)
   {
-   BT_String* dir_file { app_BriiEngine::getStr_allDirCategory_f(directoryF_ID) }; 
-   BRII_LOG_ERROR(BF_log::file_system_t, "is not posible write in file = " + *dir_file, false, true, location_write); 
+   BT_String* dir_file { app_BriiEngine::getStr_allDirCategory_f(&directoryF_ID) };
+   BRII_LOG_ERROR(BF_log::file_system_t, "is not posible read in file = " + *dir_file, false, true, location_read);
+   
+   review_file |= BF_Ios::error_read_file;
+   return false;
+  }
+ 
+  return true;
+ } 
+ 
+ bool Brii_FileSystem::is_readBytesMatch(ssize_t& bytes_writing, ssize_t& size_bytes_file, const BT_SourceLoc& location_write)
+ {
+  if(bytes_writing != size_bytes_file)
+ {
+   BT_String* dir_file { app_BriiEngine::getStr_allDirCategory_f(&directoryF_ID) };
+   BRII_LOG_ERROR(BF_log::file_system_t, "the bytes readed not match with the expected bytes to read in file = " + *dir_file, false, true, location_write);
+  // BRII_LOG_ERROR(BF_log::file_system_t, "memory is full of space before writting in file, liberate space");
+
+   review_file |= BF_Ios::error_read_bytes_match;
    return false;
   }
  
   return true;
  }
 
+ BT_String Brii_FileSystem::get_error()
+ {
+  BT_String error_f{};
 
-void Brii_FileSystem::close_file()
+  if(review_file && BF_Ios::error_open_file)
+  {
+   error_f += "Error open file\n";
+  }
+
+  if(review_file && BF_Ios::error_truncate_bytes)
+  {
+   error_f += "Error truncate bytes\n";
+  }
+
+  return error_f;
+ } 
+
+ void Brii_FileSystem::close_file()
 {
  close(FS_handle->fs_ID);
  FS_handle->fs_ID = 0;
 
- directoryF_ID = nullptr;
+ directoryF_ID = 0;
 
  open_f = BF_Ios::o_empty;
  open_p = BF_Ios::op_empty;
@@ -262,9 +348,105 @@ void Brii_FileSystem::delete_FS()
 {
  close_file();
  delete FS_handle;
- delete directoryF_ID;
+ //delete directoryF_ID;
 
 }
+
+Brii_FS_CallStack_write::Brii_FS_CallStack_write(BT_StringID first_messageID, BT_StringID File_ID)
+{
+ messagesID.emplace_back(first_messageID);
+ this->File_ID = File_ID;
+
+}
+
+void Brii_FileSystem_Manager::insert_FS_stackWrite(BT_StringID writeMessage, BT_StringID File_ID)
+{
+ auto find_file {std::find_if(pile_Stack_write.begin(), pile_Stack_write.end(), 
+                              [&File_ID](Brii_FS_CallStack_write& Psw)
+                              {
+                               return Psw.File_ID == File_ID;
+                              }) };
+
+ if(find_file != pile_Stack_write.end())
+ {
+  find_file->messagesID.emplace_back(writeMessage);
+ }
+/*
+ for(auto Psw : pile_Stack_write)
+  {
+    if(Psw.File_ID == File_ID)
+    {
+     Psw.messagesID.emplace_back(writeMessage);
+     return;
+    }
+  }
+*/
+  ////IN THE CASE that File_ID not exists in the vector
+ 
+ else if(find_file == pile_Stack_write.end())
+ {
+  pile_Stack_write.emplace_back(writeMessage, File_ID);
+ }
+}
+
+void Brii_FileSystem_Manager::write_files_pileStack()
+{
+  BF_Ios::openMode o_Mode {BF_Ios::o_createF | BF_Ios::o_writeF | BF_Ios::o_truncF};
+  BF_Ios::openPermissions o_permission {BF_Ios::op_standard};
+ 
+  BC_FSystem file_to_w {};
+
+  for(auto& Psw : pile_Stack_write)
+  {
+   BT_String* file_dir { app_BriiEngine::getStr_allDirCategory_f(&Psw.File_ID) }; 
+  
+   if(file_to_w.open_file(*file_dir, o_Mode, o_permission))
+   {
+     
+     BT_String str_acc{}; ///string accumulation
+     ssize_t bytes_Str_acc{};
+
+    for(auto& ms : Psw.messagesID)
+    {
+     const BT_String* Str_ms {app_BriiEngine::get_Str(&ms)}; 
+    
+     str_acc += *Str_ms;
+     bytes_Str_acc += Str_ms->str_sizeBytes();
+    }
+
+     ssize_t bytes_offset { *file_to_w.get_numberBytes() }; 
+     const void* buffer_message {reinterpret_cast<const void*>(&str_acc)}; 
+     
+     if(!file_to_w.write_file(buffer_message, bytes_Str_acc, bytes_offset))
+     {
+      BRII_LOG_ERROR(BF_log::file_system_t, "not writing message | File System Manager | file: " + *file_dir, false, true);
+      continue;
+     }
+     ///CONTINUE HERE TO write the files with all content of the messages
+     ///Read linux_Log.cpp line 69 to read more about whats next
+
+   }
+   BRII_LOG_ERROR(BF_log::file_system_t, "not write in file the pile stack | File System Manager | file = " + *file_dir, false, true);
+  }
+
+}
+
+void Brii_FileSystem_Manager::clear_pileStackWrite()
+{
+ pile_Stack_write.clear();
+
+/*
+
+ for(auto& Psw : pile_Stack_write)
+ {
+  for(auto& ms : Psw.messagesID)
+  {
+   app_BriiEngine::delete_str_locStr(&ms); 
+  }
+ }
+*/
+}
+
 
 
 

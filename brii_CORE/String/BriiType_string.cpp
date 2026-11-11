@@ -1,4 +1,5 @@
 #include "BriiType_string.h"
+#include <string.h>
 
  Brii_TypeString::Brii_TypeString(){};
 // Brii_TypeString::Brii_TypeString(const char* TChar)
@@ -46,6 +47,12 @@
   return *this;
  }
 
+ Brii_TypeString Brii_TypeString::operator+=(Brii_TypeString Tstring_c)
+ {
+  this->Tstring += *Tstring_c.get_TypeString();
+  return *this;
+ }
+
  Brii_TypeString Brii_TypeString::operator+=(const BT_string_internal&& Tstring_c)
  {
   this->Tstring += Tstring_c;
@@ -86,6 +93,16 @@
  constexpr BT_string_internal* Brii_TypeString::get_TypeString()
  {
   return &Tstring;
+ }
+
+ ssize_t Brii_TypeString::str_len() const
+ {
+  return strlen(Tstring.c_str()); 
+ }
+ 
+ ssize_t Brii_TypeString::str_sizeBytes() const
+ {
+  return sizeof(Tstring);
  }
 
  Brii_TypeString operator+(Brii_TypeString TS_x, Brii_TypeString TS_y)
@@ -156,4 +173,8 @@
  }
 
 
+  Brii_TypeString BTL::toString(auto i)
+ {
+  return Brii_TypeString(std::to_string(i)); 
+ }
 

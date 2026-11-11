@@ -17,11 +17,11 @@ enum class Brii_TypelocString : BT_LocStr_Flags
 //// TOTAL_SIZE = 4 
 };
 
-
 namespace BF_locString
 {
 
 using category = Brii_TypelocString;
+using BT_category = std::underlying_type_t<Brii_TypelocString>;
 
 inline constexpr category log_str_t = category::LOG_STRING;
 inline constexpr category directories_user_str_t = category::DIRECTORIES_USER_STRING;
@@ -30,7 +30,7 @@ inline constexpr category directories_assets_model_str_t = category::DIRECTORIES
 
 ///This hashTable_p are the posicion of each category of string in the localization string manager
 inline constexpr BT_LocStr_Flags log_hashTable_p = static_cast<BT_LocStr_Flags>(log_str_t);
-inline constexpr BT_LocStr_Flags directories_user_hashTable_p = static_cast<BT_LocStr_Flags>(directories_assets_model_str_t);
+inline constexpr BT_LocStr_Flags directories_user_hashTable_p = static_cast<BT_LocStr_Flags>(directories_user_str_t);
 inline constexpr BT_LocStr_Flags directories_log_hashTable_p = static_cast<BT_LocStr_Flags>(directories_log_str_t);
 inline constexpr BT_LocStr_Flags directories_assetsModel_hashTable_p = static_cast<BT_LocStr_Flags>(directories_assets_model_str_t);
 
@@ -40,6 +40,8 @@ inline constexpr size_t directories_log_hashT_size = 100;
 inline constexpr size_t directories_assetsModel_hashT_size = 10000;
 
 ////Number of directories category
+inline constexpr BT_LocStr_Flags n_start_StrStandard = log_hashTable_p;
+inline constexpr BT_LocStr_Flags n_end_StrStandard = directories_user_hashTable_p;
 inline constexpr BT_LocStr_Flags n_start_directories = directories_user_hashTable_p;
 inline constexpr BT_LocStr_Flags n_directories_category_size = 3; 
 

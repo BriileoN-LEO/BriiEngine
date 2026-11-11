@@ -16,7 +16,6 @@ enum class Brii_FS_OpenFlags : BT_ios_openFlags
 
 template<> inline constexpr bool is_bitmask_flag<Brii_FS_OpenFlags> = true;
 
-
 enum class Brii_FS_Permissions : BT_ios_openPermFlags
 { 
   EMPTY = 0,
@@ -44,6 +43,24 @@ enum class Brii_FS_Permissions : BT_ios_openPermFlags
   BRII_OTHER_G_READ | BRII_OTHER_G_EXECUTABLE
 };
 
+template<> inline constexpr bool is_bitmask_flag<Brii_FS_Permissions> = true;
+
+enum class Brii_FS_errors : BT_ios_errorFlags
+{ 
+  BRII_ERROR_WRITE_FILE = 1,
+  BRII_ERROR_WRITE_BYTES_MATCH = 1 << 1,
+  
+  BRII_ERROR_READ_FILE = 1 << 2,
+  BRII_ERROR_READ_BYTES_MATCH = 1 << 3,
+  
+  BRII_ERROR_OPEN_FILE = 1 << 4,
+  BRII_ERROR_TRUNCATE_BYTES = 1 << 5
+ 
+};
+
+template<> inline constexpr bool is_bitmask_flag<Brii_FS_errors> = true;
+
+
 namespace BF_Ios
 {
 
@@ -68,6 +85,20 @@ using openPermissions = Brii_FS_Permissions;
 inline constexpr openPermissions op_empty = openPermissions::EMPTY;
 inline constexpr openPermissions op_standard = openPermissions::BRII_STANDARD;
 inline constexpr openPermissions op_executable_archive = openPermissions::BRII_EXECUTABLE_ARCHIVE;
+
+/////////////////////////////////////////////////////////////////////////
+///FLAGS for errors in FS
+
+using error_FS = Brii_FS_errors;
+
+inline constexpr error_FS error_write_file= error_FS::BRII_ERROR_WRITE_FILE;
+inline constexpr error_FS error_write_bytes_match = error_FS::BRII_ERROR_WRITE_BYTES_MATCH;
+
+inline constexpr error_FS error_read_file = error_FS::BRII_ERROR_READ_FILE;
+inline constexpr error_FS error_read_bytes_match = error_FS::BRII_ERROR_READ_BYTES_MATCH;
+
+inline constexpr error_FS error_open_file = error_FS::BRII_ERROR_OPEN_FILE;
+inline constexpr error_FS error_truncate_bytes = error_FS::BRII_ERROR_TRUNCATE_BYTES;
 
 }
 
