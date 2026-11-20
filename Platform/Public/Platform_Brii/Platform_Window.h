@@ -23,22 +23,36 @@ i{
 
 //this class is defined in SDL3_Window.cpp or other type
 
- struct Brii_WindowHandle;
+namespace brii
+{
 
- class Brii_Window
+ struct WindowHandle;
+ 
+ struct WindowSettings
+ {
+  uint64_t windowName_ID{};
+
+  int width_size{};
+  int height_size{}; 
+  
+  Brii_WindowFlags window_Flags{};
+ };
+
+
+ class Window
 {
   private:
-  Brii_WindowHandle* Window_Context{ nullptr };
+  WindowHandle* Window_Context{ nullptr };
   BT_WindowID* windows_ID{ nullptr };
 
   public:
 
-  Brii_Window();
-  ~Brii_Window(); 
+  Window();
+  ~Window(); 
  
- bool create_Window(Brii_WindowSettings* Window_Settings);
- void* get_WindowHandle() const;
- const BT_WindowID* get_WindowID() const;
+ bool create_Window(WindowSettings* Window_Settings);
+ void* get_WindowHandle() ;
+ const BT_WindowID* get_WindowID() ;
  void destroy();
 };
 
@@ -48,28 +62,27 @@ i{
 
 ////CONTINUE HERE TO DECLARE 
 
- class Brii_WindowManager
+ class WindowManager
 {
   private:
 
-  BT_Vector<Brii_Window> windows_container{};
+  BT_Vector<Window> windows_container{};
  
   public:
-  Brii_WindowManager();
-  ~Brii_WindowManager();
+  WindowManager();
+  ~WindowManager();
 
-  void create_WindowContext(Brii_WindowSettings* API_settings);
+  void create_WindowContext(WindowSettings* API_settings);
   bool contains_window(BT_WindowID window_ID); 
 
-  Brii_Window* get_WindowContext(BT_WindowID window_ID) const;
-  const Brii_Window* get_ConstWindowContext(BT_WindowID window_ID) const; 
+  Window* get_WindowContext(BT_WindowID window_ID) const;
+  const Window* get_ConstWindowContext(BT_WindowID window_ID) const; 
  
 };
+}
 
+///CONTINUE HERE | link the locString with this window platform to link the names of the platform 
 
-
-
- 
 
 ///Probably create here the general window manager that the application requieres to create
 //multiple windows

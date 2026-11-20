@@ -82,7 +82,7 @@ class Brii_FileSystem_Manager
 {
  private:
 
- BT_Vector<Brii_FS_CallStack_write> pile_Stack_write{};
+ BT_Vector<Brii_FS_CallStack_write> pile_Stack_write{}; ///change this vector to a free-lock queue stack, to thread safe
 
  public:
  

@@ -6,8 +6,10 @@
 #include "Private/IG_OpenGL/IGraphics_OpenGL.h"
 #include "Public/RHI_Settings/RHI_Factory.h"
 
-namespace Brii_RHI_Factory
+namespace brii
 {
+
+
  void create_API_RHI(Brii_RHI* RHI, const Brii_Renderer_API* API)
  {
   switch (*API)
@@ -36,5 +38,8 @@ namespace Brii_RHI_Factory
  }
   
  }
+
+
+
 
 }

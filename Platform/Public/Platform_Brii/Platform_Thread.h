@@ -5,7 +5,6 @@
 #include "dataManager/dataTypes_brii.h"
 
 struct Brii_ThreadHandle;
-
 using call_Thread = void(*)(void* args);
 
  ///THIS DESCRIPTOR IS USED FOR THE WORKERS IN THE Job_Schedule
@@ -29,6 +28,8 @@ class alignas(64) Brii_Thread
 
  public:
 
+ Brii_Thread();
+
  Brii_Thread(Brii_Thread&& _T) noexcept;
  Brii_Thread& operator=(Brii_Thread&& _T) noexcept;
  
@@ -42,13 +43,18 @@ class alignas(64) Brii_Thread
 
  bool set_CoreAffinity(BT_ThreadCore core_idx);
  bool set_Priority(BF_Thread::priority thread_priority);
- BT_ThreadID get_threadID() const noexcept;
+ const BT_ThreadID& get_threadID() const noexcept;
  const Brii_ThreadHandle* get_NativeHandle() const noexcept;
  
 };
 
-namespace BTL
+namespace brii
 {
+  ///integrate this clases inside the namespace 
+  using func_call = call_Thread; 
+  using ThreadDescriptor = Brii_ThreadDescriptor;   
+  using Thread = Brii_Thread;
+  
   namespace ThisThread
  {
   void Yiels_exec() noexcept;
@@ -56,6 +62,7 @@ namespace BTL
   void sleepFor(BTL::timer::nanoseconds time_milliseconds) noexcept;
   BT_ThreadID getCurrentThreadID() noexcept;
   BT_ThreadCore getPhysicalCoreCount() noexcept;
+ // BT_ThreadCore 
  }
 
 }

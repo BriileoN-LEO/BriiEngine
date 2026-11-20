@@ -43,10 +43,12 @@ class Brii_locString_Manager
   localization_strings[BF_locString::directories_user_hashTable_p] = BTL::make_unique<BC_locStr>(BF_locString::directories_user_str_t, BF_locString::directories_user_hashT_size);
   localization_strings[BF_locString::directories_log_hashTable_p] = BTL::make_unique<BC_locStr>(BF_locString::directories_log_str_t, BF_locString::directories_log_hashT_size);
   localization_strings[BF_locString::directories_assetsModel_hashTable_p] = BTL::make_unique<BC_locStr>(BF_locString::directories_assets_model_str_t, BF_locString::directories_assetsModel_hashT_size);
-
+  localization_strings[BF_locString::briiEngine_presets_hashTable_p] = BTL::make_unique<BC_locStr>(BF_locString::briiEngine_presets_str_t, BF_locString::brii_engine_presets_size);
 //  BT_UniquePtr<int> v = BTL::make_unique<int>(1);
  }
- 
+
+  ///BUILD HERE TO SAVE the strings read from CSV file
+
   BC_locStr* get_locStr_byCategory(BF_locString::category locStr_category); 
   
   BT_String* get_str_byCategory(BT_StringID stringID, BF_locString::category locStr_category);
@@ -67,6 +69,14 @@ class Brii_locString_Manager
 };
 
 using BC_locStrManager = Brii_locString_Manager;
+
+
+///put all the clases from this .h inside the namespace brii 
+namespace brii
+{
+ using locString_Manager = Brii_locString_Manager;
+}
+
 
 namespace app_BriiEngine
 {

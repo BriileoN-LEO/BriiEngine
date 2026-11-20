@@ -11,49 +11,76 @@ endif
 let s:shortmess_save = &shortmess
 set shortmess+=aoO
 badd +54 Platform/Private/Platform_Log/Linux/linux_LogCalls.cpp
-badd +250 Platform/Private/Thread_OS/Thread_POSIX.cpp
-badd +41 Platform/Public/Platform_Brii/Platform_Thread.h
+badd +92 Platform/Private/Thread_OS/Thread_POSIX.cpp
+badd +42 Platform/Public/Platform_Brii/Platform_Thread.h
 badd +1 Platform/Public/Platform_Brii/Platform_Input.h
-badd +33 Platform/Public/Platform_Brii/Platform_FileSystem.h
-badd +24 Platform/Public/CoreSystems_Brii/Job_Schedule.h
-badd +0 ~/CPP_proyects/Engine_Test
+badd +95 Platform/Public/Platform_Brii/Platform_FileSystem.h
+badd +25 Platform/Public/CoreSystems_Brii/Job_Schedule.h
 badd +1 brii_CORE/CMakeLists.txt
-badd +34 brii_CORE/Settings/Settings_Time.h
-badd +14 brii_CORE/Settings/Settings_JobSystem.h
+badd +37 brii_CORE/Settings/Settings_Time.h
+badd +11 brii_CORE/Settings/Settings_JobSystem.h
 badd +28 brii_CORE/Settings/Settings_FileSystem.h
-badd +21 brii_CORE/Settings/Settings_WindowEngine.h
-badd +26 brii_CORE/Settings/Settings_Thread.h
+badd +42 brii_CORE/Settings/Settings_WindowEngine.h
+badd +19 brii_CORE/Settings/Settings_Thread.h
 badd +1 brii_CORE/Settings/Settings_UiEngine.h
-badd +20 brii_CORE/Application_Engine/Private/Application_PC.cpp
-badd +37 brii_CORE/Application_Engine/Public/Application.h
-badd +1 brii_CORE/Directories_and_Files/Public/DirAndFiles_info.h
-badd +14 brii_CORE/Directories_and_Files/Public/FilesAssets_brii.h
+badd +11 brii_CORE/Application_Engine/Private/Application_PC.cpp
+badd +55 brii_CORE/Application_Engine/Public/Application.h
+badd +18 brii_CORE/Directories_and_Files/Public/DirAndFiles_info.h
+badd +31 brii_CORE/Directories_and_Files/Public/FilesAssets_brii.h
 badd +1 brii_CORE/Directories_and_Files/Public/DirAndFile_Manager.h
-badd +38 brii_CORE/Settings/Settings_locString.h
-badd +1 Platform/Private/CoreSystems_OS/Job_Schedule/Job_Shedule_Linux.cpp
+badd +44 brii_CORE/Settings/Settings_locString.h
+badd +11 Platform/Private/CoreSystems_OS/Job_Schedule/Job_Shedule_Linux.cpp
 badd +1 Platform/Private/CoreSystems_OS/Job_Schedule/Job_Schedule_generalBrii.cpp
 badd +73 Platform/Private/Platform_Log/Linux/linux_Log.cpp
 badd +43 Platform/Public/Platform_Brii/Log_System/Platform_Log.h
 badd +73 Platform/Public/Platform_Brii/Log_System/Platform_logCalls.h
-badd +73 brii_CORE/Settings/Settings_LogEngine.h
-badd +50 brii_CORE/Settings/Settings_BriiEngine.h
-badd +82 brii_CORE/dataManager/dataTypes_brii.h
+badd +57 brii_CORE/Settings/Settings_LogEngine.h
+badd +16 brii_CORE/Settings/Settings_BriiEngine.h
+badd +43 brii_CORE/dataManager/dataTypes_brii.h
 badd +1 brii_CORE/dataManager/dataTypes_brii.cpp
 badd +31 Platform/Private/FileSystem_OS/Linux/FileSystem_POSIX.cpp
 badd +17 brii_CORE/Directories_and_Files/Private/DirAndFile_Manager.cpp
 badd +95 brii_CORE/String/BriiType_string.h
 badd +52 brii_CORE/String/stringID_brii.h
 badd +76 brii_CORE/String/stringID_brii.cpp
-badd +295 /usr/include/c++/16/bits/chrono.h
+badd +892 /usr/include/c++/16/bits/chrono.h
 badd +143 /usr/include/c++/16/type_traits
 badd +272 /usr/include/pthread.h
 badd +155 brii_CORE/String/BriiType_string.cpp
+badd +15 Platform/Public/Platform_Brii/Platform_Types.h
+badd +4918 /usr/lib/clang/23/include/emmintrin.h
+badd +68 /usr/include/sched.h
+badd +21 /usr/include/bits/types/struct_timespec.h
+badd +200 /usr/include/bits/types.h
+badd +18 learningOpenGL/learningOpenGL.h
+badd +58 learningOpenGL/learningOpenGL.cpp
+badd +84 Platform/Public/Platform_Brii/Platform_Window.h
+badd +102 Platform/Private/Platform_SDL/Public/SDL3_window.cpp
+badd +38 Graphics/Public/Graphics_Interface/IGraphics_brii.h
+badd +18 Graphics/Private/IG_OpenGL/IGraphics_OpenGL.h
+badd +16 Graphics/Private/IG_OpenGL/IGraphics_OpenGL.cpp
+badd +4 Graphics/Public/Graphics_Interface/IGraphics_brii.cpp
+badd +7 Platform/Private/Platform_SDL/Private/Linux/SDL3_WindowDef_Linux.cpp
+badd +1 Platform/Private/Platform_SDL/Public/SDL3_libraries.h
+badd +43 brii_CORE/systemManager/logger.h
+badd +1 Platform/Public/Platform_Brii/Platform_IOS.h
+badd +10 Platform/Public/Platform_Brii/Platform_Engine.h
+badd +21 Platform/Private/Platform_SDL/Public/SDL3_WindowDefinitions.h
+badd +6 Platform/Private/Platform_SDL/Public/SDL3_WindowDefinitions.cpp
+badd +15 Graphics/Private/RHI_Settings_Linux/RHI_Factory_Linux.cpp
+badd +14 Graphics/Public/RHI_Settings/RHI_Factory.h
+badd +1 Platform/CMakeLists.txt
+badd +1 Platform/Private/Platform_SDL/Public/SDL3_Input.cpp
+badd +85 brii_CORE/Localization/LocalizationString_brii.h
+badd +26 brii_CORE/Localization/Public/SourceLocation_brii.h
+badd +1 brii_CORE/Localization/Private/SourceLocation_brii.cpp
+badd +30 brii_CORE/Localization/LocalizationString_brii.cpp
 argglobal
 %argdel
-$argadd ~/CPP_proyects/Engine_Test
-edit Platform/Private/Thread_OS/Thread_POSIX.cpp
+$argadd ~/CPP_proyects/Engine_Test/
+edit Platform/Public/Platform_Brii/Platform_Window.h
 argglobal
-balt Platform/Public/Platform_Brii/Platform_Thread.h
+balt brii_CORE/Localization/LocalizationString_brii.h
 setlocal foldmethod=manual
 setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
 setlocal foldmarker={{{,}}}
@@ -63,65 +90,19 @@ setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
 silent! normal! zE
-sil! 2,8fold
-sil! 10,18fold
-sil! 23,34fold
-sil! 20,36fold
-sil! 42,45fold
-sil! 47,50fold
-sil! 52,55fold
-sil! 57,61fold
-sil! 63,67fold
-sil! 40,68fold
-sil! 38,70fold
-sil! 37,70fold
-sil! 75,86fold
-sil! 72,89fold
-sil! 71,89fold
-sil! 94,99fold
-sil! 102,107fold
-sil! 115,120fold
-sil! 123,128fold
-sil! 130,135fold
-sil! 91,139fold
-sil! 143,148fold
-sil! 152,155fold
-sil! 150,161fold
-sil! 173,176fold
-sil! 178,183fold
-sil! 190,193fold
-sil! 185,193fold
-sil! 165,196fold
-sil! 163,199fold
-sil! 201,204fold
-sil! 208,212fold
-sil! 215,218fold
-sil! 206,223fold
-sil! 227,231fold
-sil! 233,236fold
-sil! 225,237fold
-sil! 248,251fold
-sil! 252,255fold
-sil! 257,266fold
-sil! 268,271fold
-sil! 277,282fold
-sil! 273,285fold
-sil! 245,287fold
+sil! 3,4fold
+sil! 6,22fold
+sil! 31,39fold
+sil! 42,57fold
+sil! 65,81fold
+sil! 26,82fold
 let &fdl = &fdl
-37
-sil! normal! zo
-37
-sil! normal! zc
-71
-sil! normal! zo
-71
-sil! normal! zc
-let s:l = 243 - ((23 * winheight(0) + 23) / 47)
+let s:l = 84 - ((26 * winheight(0) + 24) / 48)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 243
-normal! 048|
+keepjumps 84
+normal! 047|
 lcd ~/CPP_proyects/Engine_Test
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'

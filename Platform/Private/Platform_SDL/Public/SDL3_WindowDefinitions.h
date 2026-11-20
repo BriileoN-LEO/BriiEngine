@@ -15,10 +15,10 @@
 namespace SDL_WindowDef 
 {
  
- void create_SDL_GL_Window(SDL_Window* Window, const Brii_WindowSettings* Window_Settings);
+// void create_SDL_GL_Window(SDL_Window* Window, const brii::WindowSettings* Window_Settings);
 
- bool link_flagAPI(Brii_WindowFlags* Brii_Flags, SDL_WindowFlags* SDL_Flags);
- bool link_windowFlags(Brii_WindowFlags* Brii_Flags, SDL_WindowFlags* SDL_Flags);
+ bool link_flagAPI(BF_WindowSet::windowFlags* Brii_Flags, SDL_WindowFlags* SDL_Flags);
+ bool link_windowFlags(BF_WindowSet::windowFlags* Brii_Flags, SDL_WindowFlags* SDL_Flags);
 
 }
 

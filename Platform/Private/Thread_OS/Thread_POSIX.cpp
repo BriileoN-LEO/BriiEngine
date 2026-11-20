@@ -15,6 +15,7 @@ struct Brii_ThreadHandle
  call_Thread function{ nullptr }; ///the function pointer 
  void* args_data { nullptr }; //the arguments that contains the function
  uint32_t isJoinable{ false };
+ 
 };
 
 static void* thread_BridgeRoutine(void* args_ThreadHandle)
@@ -26,8 +27,7 @@ static void* thread_BridgeRoutine(void* args_ThreadHandle)
   //-------------------------------------------
   //Get some extra values to assing to the Thread_Handle
   thread_data->thread_ID = syscall(SYS_gettid); ///Get the ID of Thread 
-  thread_data->isJoinable = true;
-  ///get the state at the thread handle
+  thread_data->isJoinable = true; ///Mark as in joinable
 
 
    thread_data->function(thread_data->args_data);
@@ -71,8 +71,7 @@ static void* thread_BridgeRoutine(void* args_ThreadHandle)
 
 static bool pthread_attr_setPriority(pthread_attr_t* p_attr, const BF_Thread::priority& attr_priority)
 {
- 
-  if(p_attr)
+  if(p_attr != nullptr)
  {
   int schedule_policy {SCHED_OTHER};
   sched_param param; 
@@ -88,25 +87,6 @@ static bool pthread_attr_setPriority(pthread_attr_t* p_attr, const BF_Thread::pr
   {
    return false;
   }
- 
-  return true;
- }
-
- return false;
-}
-
-static bool pthread_setPriority(Brii_ThreadHandle* thread_handle, const BF_Thread::priority& attr_priority)
-{
-  if(thread_handle != nullptr)
- {
-  int schedule_policy {SCHED_OTHER};
-  int prio{}; 
- 
-  get_attr_policy(attr_priority, schedule_policy, prio);
-
-  pthread_setschedpolicy(thread_handle, schedule_policy);
-  pthread_setschedprio(thread_handle->thread, prio); ///number of level of priority 
-  //pthread_attr_setschedparam(p_attr, &param);
  
   return true;
  }
@@ -223,7 +203,7 @@ static bool set_pthread_attr(pthread_attr_t* ptr_thread_attr, const Brii_ThreadD
 
   else if(tc == 0)
   {
-   BRII_LOG_INFO(BF_log::job_schedule_t, BT_String("Initialize Thread Worker, Worker name = ") + T_description.debug_Name);
+   BRII_LOG_INFO(BF_log::job_schedule_t, BT_String("initialize Thread Worker, Worker name = ") + T_description.debug_Name);
   }
 
   pthread_attr_destroy(&ptr_thread_attr);
@@ -280,41 +260,69 @@ static bool set_pthread_attr(pthread_attr_t* ptr_thread_attr, const Brii_ThreadD
   
    if(pthread_setaffinity_np(Thread_Handle->thread, sizeof(cpu_set), &cpu_set) != 0)
    { 
-     BRII_LOG_ERROR(BF_log::thread_t, BT_String("not set attribute Affinity of any core for thread, thread ID = ") + BTL::toString(Thread_Handle->thread_ID));
+     BRII_LOG_ERROR(BF_log::thread_t, BT_String("not set attribute core Affinity of any core for thread, thread ID = ") + BTL::toString(Thread_Handle->thread_ID));
      return false;
    }
   
   return true;
  }
 
+ BRII_LOG_ERROR(BF_log::thread_t, BT_String("not inicialize thread to set core Affinity"));
  return false;
 }
 
  bool Brii_Thread::set_Priority(BF_Thread::priority thread_priority)
 {
+ if(Thread_Handle != nullptr)
+ {
+  int schedule_policy {SCHED_OTHER};
+  sched_param param; 
+ 
+  get_attr_policy(thread_priority, schedule_policy, param.sched_priority); 
 
+  if(pthread_setschedparam(Thread_Handle->thread, schedule_policy, &param) != 0)
+  {
+   BRII_LOG_ERROR(BF_log::thread_t, BT_String("not set Priority in thread, thread ID = ") + BTL::toString(Thread_Handle->thread_ID));
+   return false;
+  }
+ 
+  return true;
+ }
+
+ BRII_LOG_ERROR(BF_log::thread_t, BT_String("not inicialize thread to set Priority"));
+ return false;
 }
- BT_ThreadID Brii_Thread::get_threadID() const noexcept
+ const BT_ThreadID& Brii_Thread::get_threadID() const noexcept
 {
-
+ return Thread_Handle->thread_ID;
 }
  const Brii_ThreadHandle* Brii_Thread::get_NativeHandle() const noexcept
 {
-
+ return Thread_Handle;
 }
 
  ///CONTINUE HERE TO FINISH THE THREAD ABSTRACTION
  
-namespace BTL
+namespace brii
 {
 
   void ThisThread::Yiels_exec() noexcept
  {
+  BT_ThreadID id {getCurrentThreadID()};
 
+  if(sched_yield() != 0)
+  {
+   BRII_LOG_ERROR(BF_log::thread_t, BT_String("not possible yield thread, thread ID = ") + BTL::toString(id));
+  }
+
+  BRII_LOG_INFO(BF_log::thread_t, BT_String("yield thread, thread ID = ") + BTL::toString(id));
  }
   void ThisThread::Cpu_pause() noexcept
  {
   _mm_pause();
+
+  BT_ThreadID id {getCurrentThreadID()};
+  BRII_LOG_INFO(BF_log::thread_t, BT_String("active pause CPU thread, thread ID = ") + BTL::toString(id));
  }
  
   void ThisThread::sleepFor(BTL::timer::nanoseconds time_milliseconds) noexcept
@@ -326,6 +334,9 @@ namespace BTL
    ts.tv_nsec = time_milliseconds.count() % 1000000000;
 
    nanosleep(&ts, nullptr);
+
+   BT_ThreadID id {getCurrentThreadID()};
+   BRII_LOG_INFO(BF_log::thread_t, BT_String("thread sleeping, thread ID = ") + BTL::toString(id)); 
  } 
   
  BT_ThreadID ThisThread::getCurrentThreadID() noexcept
