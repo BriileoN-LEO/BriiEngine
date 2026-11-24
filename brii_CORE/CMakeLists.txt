@@ -73,6 +73,8 @@ Localization/LocalizationString_brii.h
 Localization/LocalizationString_brii.cpp
 Localization/Public/SourceLocation_brii.h
 Localization/Private/SourceLocation_brii.cpp
+Localization/Public/LocStr_Call.h
+Localization/Private/LocStr_Call.cpp
 )
 
 set(DIRECTORIES_AND_FILES

@@ -36,8 +36,14 @@ namespace brii
   int height_size{}; 
   
   Brii_WindowFlags window_Flags{};
- };
 
+  bool setWindowsInTop{true};
+
+  uint8_t SetUserWindow{ false }; ////to identify if the user set the window settings | false = not defined by user | true = defined by user
+  //if is set the windows settings, it needs to declare all the data types from this class settings
+  //- Assigned the windowsName_ID from the locStr 
+
+ };
 
  class Window
 {
@@ -58,8 +64,7 @@ namespace brii
 
 ///THE MANAGER UTILITIES
 ///only see if the window exist or not
-
-
+///
 ////CONTINUE HERE TO DECLARE 
 
  class WindowManager
@@ -80,9 +85,8 @@ namespace brii
  
 };
 }
-
-///CONTINUE HERE | link the locString with this window platform to link the names of the platform 
-
-
+///link the locString with this window platform to link the names of the platform 
 ///Probably create here the general window manager that the application requieres to create
 //multiple windows
+
+

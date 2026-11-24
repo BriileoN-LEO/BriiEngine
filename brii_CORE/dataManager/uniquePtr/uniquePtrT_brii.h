@@ -8,7 +8,8 @@ template<typename T>
 using BT_uniquePtr_internal = std::unique_ptr<T>;
 
 
-template<typename T, typename... Args>
+//template<typename T, typename... Args>
+template<typename T>
 class brii_uniquePtrType
 {
  private:

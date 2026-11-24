@@ -38,8 +38,19 @@ namespace brii
  }
   
  }
-
-
-
-
 }
+
+namespace brii_rhi
+{ 
+  brii::GraphicsSettings predifined_GraphicsSettings()
+ {
+  return brii::GraphicsSettings
+  { 
+   BF_EngineSet::OpenGL_API, ///RHI API
+   4, ///MAJOR 
+   6  ///MINOR
+  };
+ }
+}
+
+

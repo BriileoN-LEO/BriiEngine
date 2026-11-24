@@ -4,12 +4,6 @@
 #include "Settings/Settings_BriiEngine.h"
 #include "SDL3_libraries.h"
 
-//CPP Libraries
-#include <memory>
-#include <vector>
-#include <string>
-#include <unordered_map>
-
 
 //////DELETE THIS DEFINITIONS 
 namespace SDL_WindowDef 
@@ -20,5 +14,8 @@ namespace SDL_WindowDef
  bool link_flagAPI(BF_WindowSet::windowFlags* Brii_Flags, SDL_WindowFlags* SDL_Flags);
  bool link_windowFlags(BF_WindowSet::windowFlags* Brii_Flags, SDL_WindowFlags* SDL_Flags);
 
+ void predifined_WindowFlags(BF_WindowSet::windowFlags* Brii_Flags, SDL_WindowFlags* SDL_Flag);
+ bool predifined_ResolutionWindow(int* height, int* width);
+ 
 }
 

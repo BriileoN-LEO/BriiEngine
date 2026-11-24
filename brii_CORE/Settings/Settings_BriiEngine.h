@@ -19,8 +19,8 @@ namespace BF_EngineSet
 {
  using render_API = Brii_Renderer_API; 
  
- inline constexpr render_API OpenGL_API = render_API::OpenGL;
- inline constexpr render_API Vulkan_API = render_API::Vulkan;
+ constexpr render_API OpenGL_API = render_API::OpenGL;
+ constexpr render_API Vulkan_API = render_API::Vulkan;
 
 }
 

@@ -1,9 +1,12 @@
 
 
+#include <SDL3/SDL.h> 
+
 #include "Application_Engine/Public/Application.h"
 #include "Public/Graphics_Interface/IGraphics_brii.h"
 #include "Public/Platform_Brii/Platform_Window.h" 
-#include <SDL3/SDL.h> 
+#include "Localization/Public/LocStr_Calls.h" //to link the locStr_manager to calls
+
 
 namespace Application
 {
@@ -37,7 +40,7 @@ namespace Application
  BriiEngine::BriiEngine(){};
  BriiEngine::~BriiEngine(){ destroy_EngineBrii(); }; 
 
- void BriiEngine::insert_Settings(Brii_EngineSettings Engine_Settings)
+ void BriiEngine::insert_Settings(EngineSettings* Engine_Settings_)
 {
 
 }

@@ -4,6 +4,7 @@
 #include "Public/Platform_Brii/Platform_Window.h"
 #include "SDL3_WindowDefinitions.h"
 #include "Public/Platform_Brii/Log_System/Platform_logCalls.h"
+#include "Localization/Public/LocStr_Calls.h"
 //CPP libraries 
 #include <cassert>
 
@@ -88,18 +89,42 @@ struct WindowHandle
  
  bool Window::create_Window(WindowSettings* Window_Settings)
 {      
-  SDL_WindowFlags window_Flags {};
-  
+  SDL_WindowFlags window_Flags {}; 
+  const char* nameWindow{nullptr};
+  int* def_height = &Window_Settings->height_size;
+  int* def_witdh = &Window_Settings->width_size;
+ 
   ///GET THE API FLAG FOR SDL3
-  if(!SDL_WindowDef::link_windowFlags(&Window_Settings->window_Flags, &window_Flags))
+
+  if(Window_Settings->SetUserWindow == true)
  {
-  BRII_LOG_ERROR(BF_log::platform_t, "stop creation window");
+   if(!SDL_WindowDef::link_windowFlags(&Window_Settings->window_Flags, &window_Flags))
+  {
+   BRII_LOG_ERROR(BF_log::platform_t, "stop creation window, not link window flags");
 //  std::cout << "[ERROR][WINDOW] stop creation window\n";
-  return false;
- }
+   return false;
+  }
   
+   ////CONTINUE HERE
+  ///declare a new data container in locString to save the strings that the user save, to find the name of the windows faster if the user define their windows
+  ///and find in the preset from engine brii for predifined string from the engine 24/11/ 
+  nameWindow = brii::locString 
+ }
+  else if(Window_Settings->SetUserWindow == false)
+ {
+  SDL_WindowDef::predifined_WindowFlags(&Window_Settings->window_Flags, &window_Flags);
+ 
+  if(!SDL_WindowDef::predifined_ResolutionWindow(def_height, def_witdh))
+  {
+   BRII_LOG_ERROR(BF_log::platform_t, "stop creation window, not predifined resolution window are assigned");
+   return false;
+  }
+
+  nameWindow = "predifined_name_window";
+ }
+ 
  ///consult the string of the name of the window with the windowID 
- Window_Context->Window = SDL_CreateWindow( 
+ Window_Context->Window = SDL_CreateWindow(nameWindow, *def_witdh, *def_height, window_Flags);
 
  ///CONTINUE HERE TO CREATE THE WINDOW TO SDL3 30/08/2026
   ///CREATE THE HASH TABLE TO SAVE ALL THE STRINGS IN RAM
@@ -107,10 +132,7 @@ struct WindowHandle
 
   ////HERE CALL TO STOP THE CREATION WINDOW IF DETECTS IF CALLING THE API
 
-  SDL_WindowFlags windowFlag{ SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIDDEN | SDL_WINDOW_HIGH_PIXEL_DENSITY };
-
-  Window = SDL_CreateWindow("LearningOpenGL", screenSettings::screen_w, screenSettings::screen_h, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE); //Creacion de la ventana
-  SDL_SetWindowAlwaysOnTop(Window, true);
+  SDL_SetWindowAlwaysOnTop(Window_Context->Window , Window_Settings->setWindowsInTop);
   SDL_SetWindowPosition(Window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 
    if (Window == nullptr)
@@ -176,7 +198,7 @@ void Window::destroy()
 
 
 
- ///CHANGE THIS BRII PLATFORM | SUBSITUTE FOR BRII PLATFORM MANAGER 
+///CHANGE THIS BRII PLATFORM | SUBSITUTE FOR BRII PLATFORM MANAGER 
 /*
 brii_Platform_Window::brii_Platform_Window(){};
 brii_Platform_Window::~brii_Platform_Window(){};

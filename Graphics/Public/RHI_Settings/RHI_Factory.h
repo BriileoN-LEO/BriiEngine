@@ -13,6 +13,8 @@ namespace brii
     //work API version | OpenGL and Vulkan
    int API_majorVersion{};
    int API_minorVersion{};
+
+
  };
 
  void create_API_RHI(Brii_RHI* RHI, const Brii_Renderer_API* API);
@@ -20,5 +22,12 @@ namespace brii
 
 }
  
+namespace brii_rhi
+{ 
+  brii::GraphicsSettings predifined_GraphicsSettings();
+}
+
+
+
 
 #endif //RHI_ENGINE_BRII

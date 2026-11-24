@@ -18,12 +18,14 @@ namespace Application
  {
   private:
  
-  brii::WindowSettings Window_Settings{};
-  brii::GraphicsSettings Graphics_Set{};
+  brii::WindowSettings WindowSet{};
+  brii::GraphicsSettings GraphicsSet{};
 
   public:
 
-  EngineSettings();
+  explicit EngineSettings(brii::WindowSettings WindowSet_ = brii::WindowSettings(), brii::GraphicsSettings GraphicsSet_ = brii_rhi::predifined_GraphicsSettings()) : WindowSet(WindowSet_), GraphicsSet(GraphicsSet_)
+  {};
+ 
   ~EngineSettings();
 
   ////THIS
@@ -49,17 +51,17 @@ namespace Application
   BT_UniquePtr<brii::locString_Manager> locStr_Manager{};
 
   //Main settings for the principal Window of the Engine 
-  EngineSettings Engine_Settings{};
+  BT_UniquePtr<EngineSettings> Engine_Settings{};
 
   public:
 
   BriiEngine();
   ~BriiEngine();
 
-  void insert_Settings(EngineSettings Engine_Settings);
- 
+  void insert_Settings(EngineSettings* Engine_Settings_);
+
   void init_Window();
-  void init_EngineBrii();
+  void init_EngineBrii(); //INITIALIZE ALL SYSTEMS
   void destroy_EngineBrii();
 
  };
