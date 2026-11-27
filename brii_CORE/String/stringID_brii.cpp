@@ -44,12 +44,12 @@
   return this->stringID == stringID;
  }
 
- void Brii_StringID::createID_by_str(BT_String str)
- {
-  this->stringID = Brii_StringFNV::hash_1a(str);  
- }
+// void Brii_StringID::createID_by_str(BT_String str)
+ //{
+  ///this->stringID = Brii_StringFNV::hash_1a(str);  
+ //}
 
- BT_StringID_64& Brii_StringID::get()
+ BT_StringID_64 Brii_StringID::get() const 
  {
   return stringID;
  }

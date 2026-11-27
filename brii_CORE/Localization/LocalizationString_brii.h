@@ -15,7 +15,10 @@ class Brii_localizationString
  Brii_localizationString(BF_locString::category locStr_category, size_t limits_hashTable);
  ~Brii_localizationString();
 
- BT_StringID save_stringAndGetID(BT_String locStr);
+// BT_StringID save_stringAndGetID(BT_String locStr); DEPRICATE
+
+ ///this function save str | false == the string exists | true == string saved correctly
+ bool save_str(BT_String* str, BT_StringID* strID);
 
  ///Find in the hash table if the string exists with the stringID
  BT_String* get_str_byID(BT_StringID* stringID);
@@ -44,10 +47,18 @@ class Brii_locString_Manager
   localization_strings[BF_locString::directories_log_hashTable_p] = BTL::make_unique<BC_locStr>(BF_locString::directories_log_str_t, BF_locString::directories_log_hashT_size);
   localization_strings[BF_locString::directories_assetsModel_hashTable_p] = BTL::make_unique<BC_locStr>(BF_locString::directories_assets_model_str_t, BF_locString::directories_assetsModel_hashT_size);
   localization_strings[BF_locString::briiEngine_presets_hashTable_p] = BTL::make_unique<BC_locStr>(BF_locString::briiEngine_presets_str_t, BF_locString::brii_engine_presets_size);
+  localization_strings[BF_locString::briiEngine_user_hashTable_p] = BTL::make_unique<BC_locStr>(BF_locString::briiEngine_user_str_t, BF_locString::brii_engine_user_size);
+
+
 //  BT_UniquePtr<int> v = BTL::make_unique<int>(1);
  }
 
+  BC_locStr* operator[](const size_t* idx);
+
   ///BUILD HERE TO SAVE the strings read from CSV file
+ 
+  //this function save str in the hashTable selected | false == the string exists | true == string saved correctly
+  bool save_str_byCategory(BT_String* str, BT_StringID* strID, BF_locString::category* locStr_category);
 
   BC_locStr* get_locStr_byCategory(BF_locString::category locStr_category); 
   

@@ -70,7 +70,7 @@ using BT_Window_Flags = BT_FlagsU64;
 
 
 //SPECIFIC TYPES FOR LOCALIZATION STRING
-using BT_LocStr_Flags = BT_FlagsU64;
+using BT_LocStr_Flags = BT_FlagsU8;
 
 
 //PORTABILITY TYPES

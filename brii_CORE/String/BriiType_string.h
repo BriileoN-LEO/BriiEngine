@@ -90,6 +90,7 @@ class Brii_TypeStringView
 
  BT_StringView_internal& get();
  const char* data();
+ size_t size() const;
 };
 
 namespace BTL

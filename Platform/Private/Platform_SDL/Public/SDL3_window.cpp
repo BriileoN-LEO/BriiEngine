@@ -107,9 +107,9 @@ struct WindowHandle
   
    ////CONTINUE HERE
   ///declare a new data container in locString to save the strings that the user save, to find the name of the windows faster if the user define their windows
-  ///and find in the preset from engine brii for predifined string from the engine 24/11/ 
-  nameWindow = brii::locString 
- }
+  ///and find in the preset from engine brii for predifined string from the engine 24/11/2026 
+  nameWindow = brii::getStr_allDirCategory_f( 
+  }
   else if(Window_Settings->SetUserWindow == false)
  {
   SDL_WindowDef::predifined_WindowFlags(&Window_Settings->window_Flags, &window_Flags);

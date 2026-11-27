@@ -11,7 +11,8 @@
  limits_hashTable(limits_hashTable)
  {};
  Brii_localizationString::~Brii_localizationString() = default;
- 
+
+/*
  BT_StringID Brii_localizationString::save_stringAndGetID(BT_String locStr)
 {
  BT_StringID str_ID {};
@@ -20,8 +21,20 @@
  string_container.emplace(str_ID, locStr);
 
  return str_ID; 
-}
-   
+}*/
+
+ bool Brii_localizationString::save_str(BT_String* str, BT_StringID* strID)
+ {
+  auto find_str {string_container.find(*strID)};
+
+   if(find_str != string_container.end())
+  {
+   string_container.emplace(*strID, *str);
+   return true; 
+  }
+
+  return false;
+ }
 
  BT_String* Brii_localizationString::get_str_byID(BT_StringID* stringID)
  {
@@ -61,6 +74,25 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////LOCALIZATION STRING MANAGER///////////////////////////////////////
+
+BC_locStr* Brii_locString_Manager::operator[](const size_t* idx)
+{
+ BC_locStr* str_hashTable { nullptr };
+
+ if(*idx < BF_locString::loc_container_size)
+ {
+  str_hashTable = localization_strings[*idx].get(); 
+ }
+
+ return str_hashTable;
+}
+
+bool Brii_locString_Manager::save_str_byCategory(BT_String* str, BT_StringID* strID, BF_locString::category* locStr_category)
+{
+ BC_locStr* str_hashTable {localization_strings[static_cast<BF_locString::BT_category>(*locStr_category)].get()};
+ return str_hashTable->save_str(str, strID);
+}
+
 
 BC_locStr* Brii_locString_Manager::get_locStr_byCategory(BF_locString::category locStr_category)
 {

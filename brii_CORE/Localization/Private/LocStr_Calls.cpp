@@ -7,6 +7,7 @@ static BC_locStrManager* internal_app_locStrManager{ nullptr}; ///See if is bett
 namespace app_BriiEngine
 {
 
+ ////main localization strings from my BriiEngine
  void link_locStrManager(void* locStrM)
 {
  internal_app_locStrManager = reinterpret_cast<BC_locStrManager*>(locStrM);
@@ -16,10 +17,29 @@ namespace app_BriiEngine
 }
 
 
+namespace private_LocStrCalls //this is for private function calls, only used by this file
+{
+  void save_str_in_locStr(BT_String* str, BT_StringID* strID, BF_locString::category* categoryStr) ///Save the str in LocStr from the engie
+  {
+   if(!internal_app_locStrManager->save_str_byCategory(str, strID, categoryStr))
+   {
+    ///Register the error 
+    BRII_LOG_INFO(BF_log::
+   }
+   
+  }
+
+  const wchar_t* get_str_in_locStr(BT_StringID* strID, size_t category_idx)
+  {
+
+  }
+}
+
+
 namespace brii
 {
  ///this function finds in all the directories category the string of directories
- BT_String* getStr_allDirCategory_f(BT_StringID* dir_str_ID)
+/* BT_String* getStr_allDirCategory_f(BT_StringID* dir_str_ID)
  {
    for(BT_LocStr_Flags i = BF_locString::n_start_directories; i < BF_locString::n_directories_category_size; i++)
   {
@@ -53,8 +73,9 @@ namespace brii
    
   return nullptr;
  }
+*/
 
- bool delete_str_locStr(BT_StringID* strID)
+ bool delete_str(BT_StringID* strID)
  {
    for(size_t i = 0; i < BF_locString::loc_container_size; i++)
   {

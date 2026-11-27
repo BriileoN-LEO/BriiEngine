@@ -172,6 +172,11 @@
   return T_StringView.data(); 
  }
 
+ size_t Brii_TypeStringView::size() const
+ {
+  return T_StringView.size();
+ }
+ 
 
   Brii_TypeString BTL::toString(auto i)
  {
